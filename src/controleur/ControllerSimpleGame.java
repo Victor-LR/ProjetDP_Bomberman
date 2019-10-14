@@ -10,7 +10,7 @@ public class ControllerSimpleGame implements InterfaceController {
 	private SimpleGame Simple_Jeu;
 	
 	public ControllerSimpleGame(SimpleGame Game) {
-		ViewCommand vue_command = new ViewCommand(this,Game);
+		//ViewCommand vue_command = new ViewCommand(this,Game);
 		ViewSimpleGame vue_jeu = new ViewSimpleGame(this,Game);
 		this.Simple_Jeu= Game;
 		

@@ -1,32 +1,41 @@
 package controleur;
 
+import game.BombermanGame;
+import view.ViewBombermanGame;
+import view.ViewCommand;
+
 public class ControleurBombermanGame implements InterfaceController {
 
-	public ControleurBombermanGame() {
-		// TODO Auto-generated constructor stub
+	private BombermanGame Jeu_bomberman;
+	
+	public ControleurBombermanGame(BombermanGame Jeu) {
+		
+		ViewCommand vue_commande = new ViewCommand(this,Jeu);
+		ViewBombermanGame vue_jeu = new ViewBombermanGame(this,Jeu,"layouts/niveau3.lay");
+		this.Jeu_bomberman = Jeu;
 	}
 
 	@Override
 	public void step() {
-		// TODO Auto-generated method stub
-
+		this.Jeu_bomberman.step();		
 	}
 
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
-
+		if (this.Jeu_bomberman == null) 
+			this.Jeu_bomberman.init();
+		this.Jeu_bomberman.launch();
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-
+		this.Jeu_bomberman.init();
+		this.Jeu_bomberman.launch();
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
+		this.Jeu_bomberman.stop();
 
 	}
 
