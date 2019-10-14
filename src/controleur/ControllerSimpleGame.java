@@ -20,6 +20,7 @@ public class ControllerSimpleGame implements InterfaceController {
 	public void step() {
 		// TODO Auto-generated method stub
 		this.Simple_Jeu.step();
+	
 	}
 
 	@Override
