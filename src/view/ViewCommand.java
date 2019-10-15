@@ -18,6 +18,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import controleur.InterfaceController;
+import game.BombermanGame;
+import game.Game;
 import game.Observable;
 import game.SimpleGame;
 
@@ -34,7 +36,7 @@ public class ViewCommand implements Observer{
 	
 	private JLabel turn = new JLabel();
 	
-	public ViewCommand(InterfaceController control ,SimpleGame jeu) {
+	public ViewCommand(InterfaceController control ,BombermanGame jeu) {
 
 		this.controller=control;
 		jeu.registerObserver(this);
@@ -141,7 +143,7 @@ public class ViewCommand implements Observer{
 	@Override
 	public void update(Observable obs) {
 		// TODO Auto-generated method stub
-		SimpleGame simple_jeu = (SimpleGame) obs;
+		BombermanGame simple_jeu = (BombermanGame) obs;
 		this.turn.setText("Tour n° :"+ simple_jeu.getTurn());
 		
 	}

@@ -1,6 +1,6 @@
 package game;
 
-public class BombermanGame extends Game implements Runnable, Observable {
+public class BombermanGame extends Game implements Observable {
 
 	public BombermanGame() {
 		// TODO Auto-generated constructor stub
@@ -9,7 +9,7 @@ public class BombermanGame extends Game implements Runnable, Observable {
 	@Override
 	public boolean gameContinue() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -21,7 +21,7 @@ public class BombermanGame extends Game implements Runnable, Observable {
 	@Override
 	public void takeTurn() {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Tour "+this.turn+" en cours");
 	}
 
 	@Override

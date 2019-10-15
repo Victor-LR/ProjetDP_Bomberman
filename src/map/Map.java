@@ -34,7 +34,7 @@ public class Map implements Serializable {
 	private boolean walls[][];
 	private boolean start_brokable_walls[][];
 
-	private ArrayList<InfoAgent> start_agents;
+	private ArrayList<InfoAgent> start_agents ;
 	
 
 	public Map(String filename) throws Exception{
