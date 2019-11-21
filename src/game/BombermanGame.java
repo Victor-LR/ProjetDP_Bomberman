@@ -36,13 +36,14 @@ public class BombermanGame extends Game implements Observable {
 	public void initializeGame() {
 		// TODO Auto-generated method stub
 //		agentList = ListAgentsStart;
+		agentList = new ArrayList<Agent>();
 		EnnemyFactory ennemyFactory=new EnnemyFactory();
 		BombermanFactory bombermanFactory=new BombermanFactory();
 		for(Agent agent : ListAgentsStart)
 		{
 			if(agent.getType()=='B') {
 				System.out.println("Bomb");
-				agentList.add(bombermanFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), 'B', agent.getColor(), agent.isInvincible(), agent.isSick()));
+				agentList.add(bombermanFactory.createAgent(1, 1, agent.getAgentAction(), 'B', agent.getColor(), agent.isInvincible(), agent.isSick()));
 			}
 			else {
 				System.out.println("Enn");
@@ -67,8 +68,8 @@ public class BombermanGame extends Game implements Observable {
 			
 			Agent agent = agentList.get(i);
 			System.out.println(agent.getX()+"			"+agent.getY());
-			if(ViewBombermanGame.isLegalMove(agent,AgentAction.MOVE_RIGHT)) {
-				moveAgent(agent,AgentAction.MOVE_RIGHT);
+			if(ViewBombermanGame.isLegalMove(agent,AgentAction.MOVE_DOWN)) {
+				moveAgent(agent,AgentAction.MOVE_DOWN);
 			}else {
 				moveAgent(agent,AgentAction.STOP);
 			}

@@ -64,7 +64,6 @@ public class ViewBombermanGame implements Observer {
 		BombermanGame jeu_bbm = (BombermanGame) obs;
 		//System.out.println(jeu_bbm.getAgentList().get(0).getType());
 		this.Plateau_jeu.setInfoGame(map_jeu.getStart_brokable_walls(), jeu_bbm.getAgentList());
-		System.out.println(jeu_bbm.getAgentList().size());
 		this.Plateau_jeu.repaint();
 		//this.turn.setText("Tour n° :"+ simple_jeu.getTurn());
 	}
@@ -75,20 +74,24 @@ public class ViewBombermanGame implements Observer {
 			case MOVE_DOWN:
 				if (!list_wall[agent.getX()][agent.getY()+1])
 					return true;
+				break;
 			case MOVE_UP:
 				if (!list_wall[agent.getX()][agent.getY()-1])
 					return true;
+				break;
 			case MOVE_RIGHT:
 				if (!list_wall[agent.getX()+1][agent.getY()])
-					System.out.println(!list_wall[agent.getX()+1][agent.getY()]);
+					//System.out.println(!list_wall[agent.getX()+1][agent.getY()]);
 					return true;
+				break;
 			case MOVE_LEFT:
 				if (!list_wall[agent.getX()-1][agent.getY()])
 					return true;
-			default :
-				return false;
+				break;
+				default:
+					break;
 		}
-		//return false;
+		return false;
 	}
 
 }
