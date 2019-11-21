@@ -34,8 +34,20 @@ public class BombermanGame extends Game implements Observable {
 	@Override
 	public void initializeGame() {
 		// TODO Auto-generated method stub
-		agentList = ListAgentsStart;
-
+//		agentList = ListAgentsStart;
+		EnnemyFactory ennemyFactory=new EnnemyFactory();
+		BombermanFactory bombermanFactory=new BombermanFactory();
+		for(Agent agent : ListAgentsStart)
+		{
+			if(agent.getType()=='B') {
+				System.out.println("Bomb");
+				agentList.add(bombermanFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), 'B', agent.getColor(), agent.isInvincible(), agent.isSick()));
+			}
+			else {
+				System.out.println("Enn");
+				agentList.add(ennemyFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), agent.getType(), agent.getColor(), agent.isInvincible(), agent.isSick()));
+			}
+		}
 		/*EnnemyFactory agentfactory=new EnnemyFactory();
 		BombermanFactory bombermanFactory=new BombermanFactory();
 		agentList.add(agentfactory.creaListAgentsStartgentAction.MOVE_DOWN, 'B', ColorAgent.BLANC, false, false));
@@ -94,5 +106,6 @@ public class BombermanGame extends Game implements Observable {
 			break;
 		}
 	}
+
 
 }
