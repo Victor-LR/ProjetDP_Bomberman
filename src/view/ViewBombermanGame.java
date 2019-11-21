@@ -25,7 +25,7 @@ public class ViewBombermanGame implements Observer {
 	
 	private JFrame jframe_bbm = new JFrame();
 	private PanelBomberman Plateau_jeu;
-	private Map map_jeu;
+	private static Map map_jeu;
 	private ArrayList<Agent> ListStartAgent;
 	private InterfaceController controleur;
 
@@ -63,13 +63,13 @@ public class ViewBombermanGame implements Observer {
 	public void update(Observable obs) {
 		BombermanGame jeu_bbm = (BombermanGame) obs;
 		//System.out.println(jeu_bbm.getAgentList().get(0).getType());
-		this.Plateau_jeu.setInfoGame(map_jeu.get_walls(), jeu_bbm.getAgentList());
+		this.Plateau_jeu.setInfoGame(map_jeu.getStart_brokable_walls(), jeu_bbm.getAgentList());
 		System.out.println(jeu_bbm.getAgentList().size());
 		this.Plateau_jeu.repaint();
 		//this.turn.setText("Tour n° :"+ simple_jeu.getTurn());
 	}
 	
-	public boolean isLegalMove(Agent agent, AgentAction action) {
+	public static boolean isLegalMove(Agent agent, AgentAction action) {
 		boolean[][] list_wall = map_jeu.get_walls();
 		switch (action) {
 			case MOVE_DOWN:
@@ -80,12 +80,15 @@ public class ViewBombermanGame implements Observer {
 					return true;
 			case MOVE_RIGHT:
 				if (!list_wall[agent.getX()+1][agent.getY()])
+					System.out.println(!list_wall[agent.getX()+1][agent.getY()]);
 					return true;
 			case MOVE_LEFT:
 				if (!list_wall[agent.getX()-1][agent.getY()])
 					return true;
+			default :
+				return false;
 		}
-		return false;
+		//return false;
 	}
 
 }

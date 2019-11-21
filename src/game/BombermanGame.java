@@ -9,6 +9,7 @@ import factory.AgentFactory;
 import factory.BombermanFactory;
 import factory.EnnemyFactory;
 import map.Map;
+import view.ViewBombermanGame;
 
 public class BombermanGame extends Game implements Observable {
 
@@ -62,6 +63,17 @@ public class BombermanGame extends Game implements Observable {
 	public void takeTurn() {
 		// TODO Auto-generated method stub
 		System.out.println("Tour "+this.turn+" en cours");
+		for(int i = 0; i < agentList.size(); i++) {
+			
+			Agent agent = agentList.get(i);
+			System.out.println(agent.getX()+"			"+agent.getY());
+			if(ViewBombermanGame.isLegalMove(agent,AgentAction.MOVE_RIGHT)) {
+				moveAgent(agent,AgentAction.MOVE_RIGHT);
+			}else {
+				moveAgent(agent,AgentAction.STOP);
+			}
+			
+		}
 	}
 
 	@Override
@@ -102,10 +114,13 @@ public class BombermanGame extends Game implements Observable {
 			break;
 			
 		case STOP:
-			agent.setAgentAction(action);
+		default:
+			agent.setAgentAction(AgentAction.STOP);
 			break;
 		}
 	}
+	
+	
 
 
 }
