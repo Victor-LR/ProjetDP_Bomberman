@@ -18,7 +18,7 @@ import view.ViewSimpleGame;
 public class Test {
 
 	public static void main(String[] args) {
-		SimpleGame JeuSimple = new SimpleGame();
+//		SimpleGame JeuSimple = new SimpleGame();
 //		ViewCommand vue_command = new ViewCommand(JeuSimple);
 //		ViewSimpleGame vue_jeu = new ViewSimpleGame(JeuSimple);
 		
@@ -27,7 +27,7 @@ public class Test {
 		//ControleurBombermanGame CBG = new ControleurBombermanGame(JeuBomberman);
 		ControleurBombermanGame CBG = new ControleurBombermanGame(JeuBomberman);
 		JeuBomberman.initializeGame();
-		ViewBombermanGame vue = new ViewBombermanGame(CBG, JeuBomberman, "layouts/exemple.lay");
+//		ViewBombermanGame vue = new ViewBombermanGame(CBG, JeuBomberman, "layouts/exemple.lay");
 
 	}
 
