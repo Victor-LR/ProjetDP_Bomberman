@@ -8,7 +8,7 @@ import agents.Agent_Ennemi_Simple;
 import agents.Agent_Rajion;
 import agents.ColorAgent;
 
-public class EnnemyFactory implements AgentFactory{
+public class EnnemyFactory extends AgentFactory{
 
 	public Agent createAgent(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible, boolean isSick) {
 		// TODO Auto-generated method stub
