@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
+import agents.Agent;
 import agents.AgentAction;
 import agents.InfoAgent;
 import map.Map;
@@ -46,7 +47,7 @@ public class PanelBomberman extends JPanel{
 	private Map map;
 
 
-	protected ArrayList<InfoAgent> listInfoAgents;
+	protected ArrayList<Agent> listInfoAgents;
 	protected ArrayList<InfoItem> listInfoItems;
 	protected ArrayList<InfoBomb> listInfoBombs;
 	
@@ -143,7 +144,7 @@ public class PanelBomberman extends JPanel{
 	}
 
 
-	void dessine_Agent(Graphics g, InfoAgent infoAgent)
+	void dessine_Agent(Graphics g, Agent infoAgent)
 	{
 		
 		int fen_x = getSize().width;
@@ -435,13 +436,17 @@ public class PanelBomberman extends JPanel{
 
 
 
-	public void setInfoGame(boolean[][] breakable_walls, ArrayList<InfoAgent> listInfoAgents, ArrayList<InfoItem> listInfoItems, ArrayList<InfoBomb> listInfoBombs) {
+	public void setInfoGame(boolean[][] breakable_walls, ArrayList<Agent> listInfoAgents /*,ArrayList<InfoItem> listInfoItems, ArrayList<InfoBomb> listInfoBombs*/) {
 		
 		this.listInfoAgents = listInfoAgents;
-		this.listInfoItems = listInfoItems;
-		this.listInfoBombs = listInfoBombs;
+		//this.listInfoItems = listInfoItems;
+		//this.listInfoBombs = listInfoBombs;
 		this.breakable_walls = breakable_walls;
 		
+	}
+
+	public boolean[][] getBreakable_walls() {
+		return breakable_walls;
 	}
 
 

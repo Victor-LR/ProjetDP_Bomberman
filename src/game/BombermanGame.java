@@ -12,13 +12,16 @@ import factory.EnnemyFactory;
 public class BombermanGame extends Game implements Observable {
 
     private ArrayList<Agent> agentList;
-	
+    private ArrayList<Agent> ListAgentsStart;
+
+
 
 
 	public BombermanGame() {
 		// TODO Auto-generated constructor stub
 		super();
 		agentList = new ArrayList<Agent>();
+		ListAgentsStart = new ArrayList<Agent>();
 	}
 
 	@Override
@@ -30,15 +33,20 @@ public class BombermanGame extends Game implements Observable {
 	@Override
 	public void initializeGame() {
 		// TODO Auto-generated method stub
-		EnnemyFactory agentfactory=new EnnemyFactory();
+		agentList = ListAgentsStart;
+		
+		
+		/*EnnemyFactory agentfactory=new EnnemyFactory();
 		BombermanFactory bombermanFactory=new BombermanFactory();
-		agentList.add(agentfactory.createAgent(1, 1, AgentAction.MOVE_DOWN, 'V', ColorAgent.DEFAULT, false, false));
-		agentList.add(agentfactory.createAgent(2, 2, AgentAction.MOVE_DOWN, 'E', ColorAgent.DEFAULT, false, false));
 		agentList.add(agentfactory.createAgent(3, 3, AgentAction.MOVE_DOWN, 'R', ColorAgent.DEFAULT, false, false));
-		agentList.add(bombermanFactory.createAgent(4, 4, AgentAction.STOP, 'B', ColorAgent.BLANC, false, false));
-		System.out.println("Agents créé !");
+		agentList.add(bombermanFactory.createAgent(4, 4, AgentAction.MOVE_DOWN, 'B', ColorAgent.BLANC, false, false));
+		System.out.println("Agents créé !");*/
 	}
 
+	public void setListAgentsStart(ArrayList<Agent> listAgentsStart) {
+		ListAgentsStart = listAgentsStart;
+	}
+	
 	@Override
 	public void takeTurn() {
 		// TODO Auto-generated method stub

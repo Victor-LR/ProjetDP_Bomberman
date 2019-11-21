@@ -4,31 +4,38 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import agents.Agent;
+import agents.InfoAgent;
 import controleur.InterfaceController;
 import game.BombermanGame;
 import game.Observable;
 import game.SimpleGame;
 import map.Map;
+import objects.InfoBomb;
+import objects.InfoItem;
 
 public class ViewBombermanGame implements Observer {
 	
 	
 	private JFrame jframe_bbm = new JFrame();
 	private PanelBomberman Plateau_jeu;
-	
+	private Map map_jeu;
+	private ArrayList<Agent> ListStartAgent;
 	private InterfaceController controleur;
 
 	public ViewBombermanGame(InterfaceController control, BombermanGame Jeu, String filename) {
 		this.controleur = control;
 		Jeu.registerObserver(this);
-		Map map_jeu;
 		try {
 			map_jeu = new Map(filename);
 			this.Plateau_jeu = new PanelBomberman(map_jeu);
+			ListStartAgent = map_jeu.getStart_agents();
+			Jeu.setListAgentsStart(ListStartAgent);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,7 +61,9 @@ public class ViewBombermanGame implements Observer {
 	@Override
 	public void update(Observable obs) {
 		BombermanGame jeu_bbm = (BombermanGame) obs;
-		System.out.println(jeu_bbm.getAgentList().get(0).getType());
+		//System.out.println(jeu_bbm.getAgentList().get(0).getType());
+		this.Plateau_jeu.setInfoGame(map_jeu.getStart_brokable_walls(), jeu_bbm.getAgentList());
+		System.out.println(jeu_bbm.getAgentList().size());
 		this.Plateau_jeu.repaint();
 		//this.turn.setText("Tour n° :"+ simple_jeu.getTurn());
 	}

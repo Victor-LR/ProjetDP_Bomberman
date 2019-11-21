@@ -11,7 +11,7 @@ public class ControleurBombermanGame implements InterfaceController {
 	public ControleurBombermanGame(BombermanGame Jeu) {
 		
 		ViewCommand vue_commande = new ViewCommand(this,Jeu);
-		ViewBombermanGame vue_jeu = new ViewBombermanGame(this,Jeu,"layouts/niveau3.lay");
+		ViewBombermanGame vue_jeu = new ViewBombermanGame(this,Jeu,"layouts/alone.lay");
 		this.Jeu_bomberman = Jeu;
 	}
 
@@ -22,7 +22,7 @@ public class ControleurBombermanGame implements InterfaceController {
 
 	@Override
 	public void start() {
-		if (this.Jeu_bomberman == null) 
+		if (this.Jeu_bomberman.getAgentList().size() == 0) 
 			this.Jeu_bomberman.init();
 		this.Jeu_bomberman.launch();
 	}
