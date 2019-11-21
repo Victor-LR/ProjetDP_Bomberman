@@ -1,6 +1,6 @@
 package agents;
 
-public class Agent_Bird extends Agent {
+public class Agent_Bird extends Agent_Ennemi {
 
 	public Agent_Bird(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible,
 			boolean isSick) {

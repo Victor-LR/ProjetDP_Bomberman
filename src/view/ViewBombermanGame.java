@@ -54,6 +54,7 @@ public class ViewBombermanGame implements Observer {
 	@Override
 	public void update(Observable obs) {
 		BombermanGame jeu_bbm = (BombermanGame) obs;
+		System.out.println(jeu_bbm.getAgentList().get(0).getType());
 		this.Plateau_jeu.repaint();
 		//this.turn.setText("Tour n° :"+ simple_jeu.getTurn());
 	}
