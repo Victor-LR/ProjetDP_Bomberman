@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import agents.Agent;
+import agents.AgentAction;
 import agents.InfoAgent;
 import controleur.InterfaceController;
 import game.BombermanGame;
@@ -66,6 +67,25 @@ public class ViewBombermanGame implements Observer {
 		System.out.println(jeu_bbm.getAgentList().size());
 		this.Plateau_jeu.repaint();
 		//this.turn.setText("Tour n° :"+ simple_jeu.getTurn());
+	}
+	
+	public boolean isLegalMove(Agent agent, AgentAction action) {
+		boolean[][] list_wall = map_jeu.get_walls();
+		switch (action) {
+			case MOVE_DOWN:
+				if (!list_wall[agent.getX()][agent.getY()+1])
+					return true;
+			case MOVE_UP:
+				if (!list_wall[agent.getX()][agent.getY()-1])
+					return true;
+			case MOVE_RIGHT:
+				if (!list_wall[agent.getX()+1][agent.getY()])
+					return true;
+			case MOVE_LEFT:
+				if (!list_wall[agent.getX()-1][agent.getY()])
+					return true;
+		}
+		return false;
 	}
 
 }
