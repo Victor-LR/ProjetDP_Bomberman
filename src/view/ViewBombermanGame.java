@@ -95,5 +95,31 @@ public class ViewBombermanGame implements Observer {
 		}
 		return false;
 	}
-
+	
+	public static boolean isFlying(Agent agent, AgentAction action) {
+		boolean[][] list_wall = map_jeu.get_walls();
+		
+		switch (action) {
+			case MOVE_DOWN:
+				if (!list_wall[agent.getX()][agent.getY()+1])
+					return true;
+				break;
+			case MOVE_UP:
+				if (!list_wall[agent.getX()][agent.getY()-1])
+					return true;
+				break;
+			case MOVE_RIGHT:
+				if (!list_wall[agent.getX()+1][agent.getY()])
+					//System.out.println(!list_wall[agent.getX()+1][agent.getY()]);
+					return true;
+				break;
+			case MOVE_LEFT:
+				if (!list_wall[agent.getX()-1][agent.getY()])
+					return true;
+				break;
+			default:
+				break;
+		}
+		return false;
+	}
 }

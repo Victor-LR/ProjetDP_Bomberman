@@ -67,11 +67,11 @@ public class BombermanGame extends Game implements Observable {
 			AgentAction[] listaction = AgentAction.values();
 			int action_random = (int) (Math.random()*listaction.length);
 			
-			if(ViewBombermanGame.isLegalMove(agent,agent.doAction(agentList, listaction[action_random]))) {
+//			if(ViewBombermanGame.isLegalMove(agent,listaction[action_random])) {
 				moveAgent(agent,listaction[action_random]);
-			}else {
-				moveAgent(agent,AgentAction.STOP);
-			}
+//			}else {
+//				moveAgent(agent,AgentAction.STOP);
+//			}
 		}
 	}
 
