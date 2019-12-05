@@ -62,17 +62,16 @@ public class BombermanGame extends Game implements Observable {
 		for(int i = 0; i < agentList.size(); i++) {
 			
 			Agent agent = agentList.get(i);
-			System.out.println(agent.getX()+"			"+agent.getY());
+			//System.out.println(agent.getX()+"			"+agent.getY());
 		
 			AgentAction[] listaction = AgentAction.values();
 			int action_random = (int) (Math.random()*listaction.length);
 			
-			if(ViewBombermanGame.isLegalMove(agent,listaction[action_random])) {
+			if(ViewBombermanGame.isLegalMove(agent,agent.doAction(agentList, listaction[action_random]))) {
 				moveAgent(agent,listaction[action_random]);
 			}else {
 				moveAgent(agent,AgentAction.STOP);
 			}
-			
 		}
 	}
 
@@ -90,27 +89,39 @@ public class BombermanGame extends Game implements Observable {
 	{
 		int x = agent.getX();
 		int y = agent.getY();
-		
+
 		switch (action) {
 		//MOVE_UP,MOVE_DOWN,MOVE_LEFT,MOVE_RIGHT,STOP,PUT_BOMB
 		case MOVE_UP:
 			agent.setAgentAction(action);
-			agent.setY(y-1);
+			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+				agent.setY(y-1);
+			else
+				agent.setAgentAction(AgentAction.STOP);
 			break;
 			
 		case MOVE_DOWN:
 			agent.setAgentAction(action);
-			agent.setY(y+1);
+			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+				agent.setY(y+1);
+			else
+				agent.setAgentAction(AgentAction.STOP);
 			break;
 
 		case MOVE_LEFT:
 			agent.setAgentAction(action);
-			agent.setX(x-1);
+			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+				agent.setX(x-1);
+			else
+				agent.setAgentAction(AgentAction.STOP);
 			break;
 			
 		case MOVE_RIGHT:
 			agent.setAgentAction(action);
-			agent.setX(x+1);
+			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+				agent.setX(x+1);
+			else
+				agent.setAgentAction(AgentAction.STOP);
 			break;
 			
 		case STOP:
@@ -119,8 +130,6 @@ public class BombermanGame extends Game implements Observable {
 			break;
 		}
 	}
-	
-	
 
 
 }
