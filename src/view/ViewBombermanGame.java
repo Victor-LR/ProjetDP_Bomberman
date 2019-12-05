@@ -70,22 +70,24 @@ public class ViewBombermanGame implements Observer {
 	
 	public static boolean isLegalMove(Agent agent, AgentAction action) {
 		boolean[][] list_wall = map_jeu.get_walls();
+		boolean[][] list_breakable_wall = map_jeu.getStart_brokable_walls();
+		
 		switch (action) {
 			case MOVE_DOWN:
-				if (!list_wall[agent.getX()][agent.getY()+1])
+				if (!list_wall[agent.getX()][agent.getY()+1] && !list_breakable_wall[agent.getX()][agent.getY()+1])
 					return true;
 				break;
 			case MOVE_UP:
-				if (!list_wall[agent.getX()][agent.getY()-1])
+				if (!list_wall[agent.getX()][agent.getY()-1] && !list_breakable_wall[agent.getX()][agent.getY()-1])
 					return true;
 				break;
 			case MOVE_RIGHT:
-				if (!list_wall[agent.getX()+1][agent.getY()])
+				if (!list_wall[agent.getX()+1][agent.getY()] && !list_breakable_wall[agent.getX()+1][agent.getY()])
 					//System.out.println(!list_wall[agent.getX()+1][agent.getY()]);
 					return true;
 				break;
 			case MOVE_LEFT:
-				if (!list_wall[agent.getX()-1][agent.getY()])
+				if (!list_wall[agent.getX()-1][agent.getY()] && !list_breakable_wall[agent.getX()-1][agent.getY()])
 					return true;
 				break;
 				default:
