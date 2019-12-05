@@ -90,8 +90,8 @@ public class ViewBombermanGame implements Observer {
 				if (!list_wall[agent.getX()-1][agent.getY()] && !list_breakable_wall[agent.getX()-1][agent.getY()])
 					return true;
 				break;
-				default:
-					break;
+			default:
+				break;
 		}
 		return false;
 	}

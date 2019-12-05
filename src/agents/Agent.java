@@ -1,6 +1,10 @@
 package agents;
 
-public class Agent {
+import java.util.ArrayList;
+
+import strategie.Comportement;
+
+public class Agent implements Comportement{
 
 	private int x;
 	private int y;
@@ -86,6 +90,13 @@ public class Agent {
 
 	public void setAgentAction(AgentAction agentAction) {
 		this.agentAction = agentAction;
+	}
+
+
+	@Override
+	public AgentAction doAction(ArrayList<Agent> agent, AgentAction action) {
+		// TODO Auto-generated method stub
+		return action;
 	}
 
 }

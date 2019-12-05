@@ -1,6 +1,10 @@
 package agents;
 
-public class Agent_Bomberman extends Agent {
+import java.util.ArrayList;
+
+import strategie.Comportement;
+
+public class Agent_Bomberman extends Agent{
 
 	private int range;
 	private int nbBombes;
@@ -27,5 +31,6 @@ public class Agent_Bomberman extends Agent {
 	public void setNbBombes(int nbBombes) {
 		this.nbBombes = nbBombes;
 	}
+
 
 }
