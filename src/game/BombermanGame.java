@@ -35,7 +35,6 @@ public class BombermanGame extends Game implements Observable {
 	@Override
 	public void initializeGame() {
 		// TODO Auto-generated method stub
-//		agentList = ListAgentsStart;
 		agentList = new ArrayList<Agent>();
 		EnnemyFactory ennemyFactory=new EnnemyFactory();
 		BombermanFactory bombermanFactory=new BombermanFactory();
@@ -43,17 +42,13 @@ public class BombermanGame extends Game implements Observable {
 		{
 			if(agent.getType()=='B') {
 				System.out.println("Bomb");
-				agentList.add(bombermanFactory.createAgent(1, 1, agent.getAgentAction(), 'B', agent.getColor(), agent.isInvincible(), agent.isSick()));
+				agentList.add(bombermanFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), 'B', agent.getColor(), agent.isInvincible(), agent.isSick()));
 			}
 			else {
 				System.out.println("Enn");
 				agentList.add(ennemyFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), agent.getType(), agent.getColor(), agent.isInvincible(), agent.isSick()));
 			}
 		}
-		/*EnnemyFactory agentfactory=new EnnemyFactory();
-		BombermanFactory bombermanFactory=new BombermanFactory();
-		agentList.add(agentfactory.creaListAgentsStartgentAction.MOVE_DOWN, 'B', ColorAgent.BLANC, false, false));
-		System.out.println("Agents créé !");*/
 	}
 
 	public void setListAgentsStart(ArrayList<Agent> listAgentsStart) {
@@ -68,8 +63,12 @@ public class BombermanGame extends Game implements Observable {
 			
 			Agent agent = agentList.get(i);
 			System.out.println(agent.getX()+"			"+agent.getY());
-			if(ViewBombermanGame.isLegalMove(agent,AgentAction.MOVE_DOWN)) {
-				moveAgent(agent,AgentAction.MOVE_DOWN);
+		
+			AgentAction[] listaction = AgentAction.values();
+			int action_random = (int) (Math.random()*listaction.length);
+			
+			if(ViewBombermanGame.isLegalMove(agent,listaction[action_random])) {
+				moveAgent(agent,listaction[action_random]);
 			}else {
 				moveAgent(agent,AgentAction.STOP);
 			}
