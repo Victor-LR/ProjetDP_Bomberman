@@ -352,9 +352,13 @@ public class PanelBomberman extends JPanel{
 			}
 
 			int range = bomb.getRange();
-
+			
+			
+			range = bomb.getRange_wall_at(1);
+			System.out.println("                 SOUTH RANGE"+range);
 			for (int i = 1 ; i <= range; i++){
-
+				
+			   
 				if(py+i < map.getSizeY()) {
 					if(i == range ) {
 						try {
@@ -372,7 +376,14 @@ public class PanelBomberman extends JPanel{
 						}
 					}
 				}
-
+			
+			}
+			
+			range = bomb.getRange_wall_at(3);
+			System.out.println("                 NORTH RANGE"+range);
+			for (int i = 1 ; i <= range; i++){
+				
+				
 				if(py-i >= 0) {
 					if(i == range) {
 						try {
@@ -390,7 +401,13 @@ public class PanelBomberman extends JPanel{
 						}
 					}
 				}
+				
+			}
 
+			range = bomb.getRange_wall_at(0);
+			System.out.println("                 EAST RANGE"+range);
+			for (int i = 1 ; i <= range; i++){
+				
 				if(px+i < map.getSizeX()) {
 					if( i == range ) {
 						try {
@@ -408,7 +425,12 @@ public class PanelBomberman extends JPanel{
 						}
 					}
 				}
-
+			}
+			//range = bomb.getRange();
+			range = bomb.getRange_wall_at(2);
+			System.out.println("                 WEST RANGE"+range);
+			for (int i = 1 ; i <= range; i++){
+					
 				if(px-i >= 0) {
 					if( i == range) {
 						try {
@@ -426,9 +448,10 @@ public class PanelBomberman extends JPanel{
 						}
 					}
 				}
-
-
+				
 			}
+
+
 
 		}
 

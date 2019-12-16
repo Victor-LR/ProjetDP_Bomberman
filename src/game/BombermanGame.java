@@ -46,6 +46,7 @@ public class BombermanGame extends Game implements Observable {
 		agentList = new ArrayList<Agent>();
 		EnnemyFactory ennemyFactory=new EnnemyFactory();
 		BombermanFactory bombermanFactory=new BombermanFactory();
+		list_item = new ArrayList<InfoItem>();
 		
 		for(Agent agent : ListAgentsStart)
 		{
@@ -162,6 +163,18 @@ public class BombermanGame extends Game implements Observable {
 			break;
 		}
 	}
+	/*
+	if (direction == Map.EAST) {
+		for(int i = 0; i<=bomb.getRange(); i++){
+			if(x+i<map.getSizeX()){
+				if(this.isBrokable_Wall(x+i, y) || map.isWall(x+i, y)){
+					taille_range = x+i;
+					break;
+				}
+				else taille_range = x+i;
+			}
+		}
+	}*/
 	
 	//Réalise l'explosion d'une et ses conséquences
 	public void bombExplode(InfoBomb bomb)
@@ -189,11 +202,15 @@ public class BombermanGame extends Game implements Observable {
 				if(bombe.getX() == i & bombe.getY() == y){
 					bombe.setStateBomb(StateBomb.Boom);
 					}
+				bombe.setRange_wall_at(0, i-x);
+				System.out.println("        EAST");
 			}
+			
 			if(i < list_wall.length)
 				if(list_wall[i][y]) {
 					list_wall[i][y]=false;
 					creerItem(i,y);
+					break;
 				}
 		}
 		
@@ -214,11 +231,14 @@ public class BombermanGame extends Game implements Observable {
 					if(bombe.getX() == x & bombe.getY() == i ){
 						bombe.setStateBomb(StateBomb.Boom);
 					}
+				bombe.setRange_wall_at(1, i-y);
+				System.out.println("        EAST");
 			}
 			if(i < list_wall[x].length)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
 					creerItem(x,i);
+					break;
 				}
 		}
 		
@@ -239,11 +259,14 @@ public class BombermanGame extends Game implements Observable {
 					if(bombe.getX() == i & bombe.getY() == y){
 						bombe.setStateBomb(StateBomb.Boom);
 					}
+				bombe.setRange_wall_at(2, x-i);
+				System.out.println("        WEST");
 			}
 			if(i > 0)
 				if(list_wall[i][y]){
 					list_wall[i][y]=false;
 					creerItem(i,y);
+					break;
 				}
 	
 		}
@@ -265,11 +288,15 @@ public class BombermanGame extends Game implements Observable {
 				if(bombe.getX() == x & bombe.getY() == i){
 					bombe.setStateBomb(StateBomb.Boom);
 					}
-				}
+				bombe.setRange_wall_at(3, y-i);
+				System.out.println("        NORTH");
+			}
+			
 			if(i > 0)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
 					creerItem(x,i);
+					break;
 				}
 		}
 
@@ -295,10 +322,11 @@ public class BombermanGame extends Game implements Observable {
 					
 				case Step3:
 					bombe.setStateBomb(StateBomb.Boom);
+					bombExplode(bombe);
 					break;
 					
 				case Boom:
-					bombExplode(bombe);
+					
 					bombes.remove(bombe);
 					break;
 				}
@@ -310,9 +338,10 @@ public class BombermanGame extends Game implements Observable {
 	{
 		int x = bomberman.getX();
 		int y = bomberman.getY();
-		
+		if(this.bombes.size()>=0) {
 		InfoBomb bomb = new InfoBomb(x,y,bomberman.getRange(),StateBomb.Step1);
 		bombes.add(bomb);
+		}
 	}
 	
 //	public void agentTurn() {
