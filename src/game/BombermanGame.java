@@ -88,11 +88,12 @@ public class BombermanGame extends Game implements Observable {
 			AgentAction[] listaction = AgentAction.values();
 			int action_random = (int) (Math.random()*listaction.length);
 			moveAgent(agent,listaction[action_random]);
-			if (agent.getType()=='B')
+			if (agent.getType()=='B') {
 				itemBoost(agent.getX(), agent.getY(), (Agent_Bomberman)agent);
-			if (AgentAction.PUT_BOMB == listaction[action_random] && agent.getType()=='B')
-			{
-				placeBomb((Agent_Bomberman)agent);
+				if (AgentAction.PUT_BOMB == listaction[action_random] )
+				{
+					placeBomb((Agent_Bomberman)agent);
+				}
 			}
 		}
 		bombeTurn();
@@ -353,8 +354,12 @@ public class BombermanGame extends Game implements Observable {
 	
 	public void creerItem(int x, int y) {
 		ItemType[] listitem = ItemType.values();
-		int item_random = (int) (Math.random()*listitem.length);
-		list_item.add(new InfoItem(x,y,listitem[item_random]));
+		int drop_random = (int) (Math.random()*100);
+		System.out.println("drop " + drop_random);
+		if(drop_random < 40) {
+			int item_random = (int) (Math.random()*listitem.length);
+			list_item.add(new InfoItem(x,y,listitem[item_random]));
+		}
 	}
 	
 	public void itemBoost(int x, int y, Agent_Bomberman agent) {
@@ -366,7 +371,6 @@ public class BombermanGame extends Game implements Observable {
 					case BOMB_DOWN:
 						if(agent.getNbBombes()>1)
 						{
-							System.out.println("BOMB DOWN");
 							agent.setNbBombes(agent.getNbBombes()-1);
 						}
 						break;
@@ -382,6 +386,7 @@ public class BombermanGame extends Game implements Observable {
 						break;
 					case FIRE_SUIT:
 						agent.setInvincible(true);
+						agent.setTourInv(this.turn);
 						break;
 					case SKULL:
 						break;
