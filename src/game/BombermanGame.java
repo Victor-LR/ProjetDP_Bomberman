@@ -13,6 +13,8 @@ import factory.BombermanFactory;
 import factory.EnnemyFactory;
 import map.Map;
 import objects.InfoBomb;
+import objects.InfoItem;
+import objects.ItemType;
 import objects.StateBomb;
 import view.ViewBombermanGame;
 
@@ -22,11 +24,14 @@ public class BombermanGame extends Game implements Observable {
     private ArrayList<Agent> ListAgentsStart;
     private ArrayList<InfoBomb> bombes;
     private boolean[][] list_wall;
+    private ArrayList<InfoItem> list_item;
     
-    public BombermanGame() {
+
+	public BombermanGame() {
 		agentList = new ArrayList<Agent>();
 		ListAgentsStart = new ArrayList<Agent>();
 		bombes = new ArrayList<InfoBomb>();
+		list_item = new ArrayList<InfoItem>();
     }
 
 	@Override
@@ -149,9 +154,10 @@ public class BombermanGame extends Game implements Observable {
 		
 		ArrayList<Agent> agents = this.agentList;
 		
+		System.out.println("Taille " + list_wall.length);
 		// TEST RANGE EAST
 		
-		for(int i = x; i+bomb.getRange()<= x + bomb.getRange(); i++){
+		for(int i = x; i<= x + bomb.getRange(); i++){
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
@@ -167,14 +173,18 @@ public class BombermanGame extends Game implements Observable {
 					bombe.setStateBomb(StateBomb.Boom);
 					}
 			}
-			if(list_wall[i][y]){
-				list_wall[i][y]=false;
-			}
+			if(i < list_wall[x].length)
+				if(list_wall[i][y]){
+					list_wall[i][y]=false;
+					ItemType[] listitem = ItemType.values();
+					int item_random = (int) (Math.random()*listitem.length);
+					list_item.add(new InfoItem(i,y,listitem[item_random]));
+				}
 		}
 		
 		// TEST RANGE SOUTH
 		
-		for(int i = y; i+bomb.getRange()<= y +bomb.getRange(); i++){
+		for(int i = y; i<= y +bomb.getRange(); i++){
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
@@ -190,14 +200,18 @@ public class BombermanGame extends Game implements Observable {
 						bombe.setStateBomb(StateBomb.Boom);
 					}
 			}
-			if(list_wall[x][i]){
-				list_wall[x][i]=false;
-			}
+			if(i < list_wall[x].length)
+				if(list_wall[x][i]){
+					list_wall[x][i]=false;
+					ItemType[] listitem = ItemType.values();
+					int item_random = (int) (Math.random()*listitem.length);
+					list_item.add(new InfoItem(i,y,listitem[item_random]));
+				}
 		}
 		
 		// TEST RANGE WEST
 		
-		for(int i = x; i-bomb.getRange()>= x-bomb.getRange(); i--){
+		for(int i = x; i>= x-bomb.getRange(); i--){
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
@@ -213,15 +227,19 @@ public class BombermanGame extends Game implements Observable {
 						bombe.setStateBomb(StateBomb.Boom);
 					}
 			}
-			if(list_wall[i][y]){
-				list_wall[i][y]=false;
-			}
+			if(i > 0)
+				if(list_wall[i][y]){
+					list_wall[i][y]=false;
+					ItemType[] listitem = ItemType.values();
+					int item_random = (int) (Math.random()*listitem.length);
+					list_item.add(new InfoItem(i,y,listitem[item_random]));
+				}
 	
 		}
 		
 		
 		// TEST RANGE NORTH
-		for(int i = y; i-bomb.getRange()>= y-bomb.getRange(); i--){
+		for(int i = y; i>= y-bomb.getRange(); i--){
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
@@ -237,9 +255,13 @@ public class BombermanGame extends Game implements Observable {
 					bombe.setStateBomb(StateBomb.Boom);
 					}
 				}
-			if(list_wall[x][i]){
-				list_wall[x][i]=false;
-			}
+			if(i > 0)
+				if(list_wall[x][i]){
+					list_wall[x][i]=false;
+					ItemType[] listitem = ItemType.values();
+					int item_random = (int) (Math.random()*listitem.length);
+					list_item.add(new InfoItem(i,y,listitem[item_random]));
+				}
 		}
 
 		
@@ -316,6 +338,8 @@ public class BombermanGame extends Game implements Observable {
 		return list_wall;
 	}
 	
-
+	public ArrayList<InfoItem> getList_item() {
+		return list_item;
+	}
 
 }
