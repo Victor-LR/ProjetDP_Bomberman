@@ -158,9 +158,6 @@ public class BombermanGame extends Game implements Observable {
 				if(agent.getX() == i && agent.getY() == y && agent.getType()!='B'){
 					agents.remove(j);
 				}
-				if(list_wall[i][y]){
-					list_wall[i][y]=false;
-				}
 			}
 				
 			for(int j = 0; j<bombes.size(); j++){
@@ -169,7 +166,10 @@ public class BombermanGame extends Game implements Observable {
 				if(bombe.getX() == i & bombe.getY() == y){
 					bombe.setStateBomb(StateBomb.Boom);
 					}
-				}
+			}
+			if(list_wall[i][y]){
+				list_wall[i][y]=false;
+			}
 		}
 		
 		// TEST RANGE SOUTH
@@ -181,9 +181,6 @@ public class BombermanGame extends Game implements Observable {
 				if(agent.getX() == x && agent.getY() == i && agent.getType()!='B'){
 					agents.remove(j);
 				}
-				if(list_wall[x][i]){
-					list_wall[x][i]=false;
-				}
 			}
 				
 			for(int j = 0; j<bombes.size(); j++){
@@ -193,6 +190,9 @@ public class BombermanGame extends Game implements Observable {
 						bombe.setStateBomb(StateBomb.Boom);
 					}
 				}
+			if(list_wall[x][i]){
+				list_wall[x][i]=false;
+			}
 		}
 		
 		// TEST RANGE WEST
@@ -204,9 +204,7 @@ public class BombermanGame extends Game implements Observable {
 				if(agent.getX() == i && agent.getY() == y && agent.getType()!='B'){
 					agents.remove(j);
 				}
-				if(list_wall[i][y]){
-					list_wall[i][y]=false;
-				}
+				
 			}
 				
 			for(int j = 0; j<bombes.size(); j++){
@@ -215,6 +213,10 @@ public class BombermanGame extends Game implements Observable {
 					if(bombe.getX() == i & bombe.getY() == y){
 						bombe.setStateBomb(StateBomb.Boom);
 					}
+			}
+			//Cassage de mur
+			if(list_wall[i][y]){
+				list_wall[i][y]=false;
 			}
 	
 		}
@@ -228,9 +230,6 @@ public class BombermanGame extends Game implements Observable {
 				if(agent.getX() == x && agent.getY() == i && agent.getType()!='B'){
 					agents.remove(j);
 					}
-				if(list_wall[x][i]){
-					list_wall[x][i]=false;
-				}
 				}
 				
 			for(int j = 0; j<bombes.size(); j++){
@@ -240,10 +239,14 @@ public class BombermanGame extends Game implements Observable {
 					bombe.setStateBomb(StateBomb.Boom);
 					}
 				}
+			// Cassage de mur
+			if(list_wall[x][i]){
+				list_wall[x][i]=false;
+			}
 				
 		}
 
-		
+	
 	}
 	
 	//Réalise le tour d'une bombe
