@@ -43,7 +43,7 @@ public class ViewBombermanGame implements Observer {
 		}
 		
 		jframe_bbm.setTitle("Game");
-		jframe_bbm.setSize(new Dimension(700, 500));
+		jframe_bbm.setSize(new Dimension(map_jeu.getSizeX()*50, (map_jeu.getSizeY()*50)));
 		Dimension windowSize = jframe_bbm.getSize();
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Point centerPoint = ge.getCenterPoint();

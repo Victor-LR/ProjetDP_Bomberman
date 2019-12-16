@@ -72,7 +72,7 @@ public class BombermanGame extends Game implements Observable {
 			
 //			if(ViewBombermanGame.isLegalMove(agent,listaction[action_random])) {
 				moveAgent(agent,listaction[action_random]);
-				if (AgentAction.PUT_BOMB == AgentAction.PUT_BOMB && agent.getType()=='B')
+				if (AgentAction.PUT_BOMB == listaction[action_random] && agent.getType()=='B')
 					placeBomb((Agent_Bomberman)agent);
 //			}
 //				moveAgent(agent,AgentAction.STOP);
@@ -138,6 +138,7 @@ public class BombermanGame extends Game implements Observable {
 		}
 	}
 	
+	//Réalise l'explosion d'une et ses conséquences
 	public void bombExplode(InfoBomb bomb)
 	{
 		int x = bomb.getX();
@@ -163,7 +164,6 @@ public class BombermanGame extends Game implements Observable {
 					bombe.setStateBomb(StateBomb.Boom);
 					}
 				}
-				
 		}
 		
 		// TEST RANGE SOUTH
@@ -184,7 +184,6 @@ public class BombermanGame extends Game implements Observable {
 					bombe.setStateBomb(StateBomb.Boom);
 					}
 				}
-				
 		}
 		
 		// TEST RANGE WEST
@@ -231,6 +230,7 @@ public class BombermanGame extends Game implements Observable {
 
 		
 	}
+	
 	//Réalise le tour d'une bombe
 	public void bombeTurn(){
 		
@@ -260,7 +260,7 @@ public class BombermanGame extends Game implements Observable {
 		}
 	}
 	
-	//place une bombe
+	//place une bombe à la position du bomberman
 	public void placeBomb(Agent_Bomberman bomberman)
 	{
 		int x = bomberman.getX();
@@ -270,6 +270,29 @@ public class BombermanGame extends Game implements Observable {
 		bombes.add(bomb);
 	}
 	
+//	public void agentTurn() {
+//
+//		ArrayList<Agent> agents = this.getAgentList();
+//			
+//				for(int i = 0; i < agents.size(); i++){
+//					Agent agent = agents.get(i);
+//		
+//					if (!agent.isInvincible() && S){
+//						if(isEnnemie(agent.getX(),agent.getY())) {
+//							agent.setDead(true);
+//						}
+//						
+//						if(isBird(agent.getX(),agent.getY())) {
+//							agent.agent(true);
+//						}
+//						
+//						if(isRajion(agent.getX(),agent.getY())) {
+//							agent.setDead(true);
+//						}
+//					}
+//					
+//				}
+//	}
 	
 	public ArrayList<InfoBomb> getBombes() {
 		return bombes;
