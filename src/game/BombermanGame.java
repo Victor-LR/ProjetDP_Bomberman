@@ -68,7 +68,8 @@ public class BombermanGame extends Game implements Observable {
 				list_wall[i][j] = ViewBombermanGame.getMap_jeu().getStart_brokable_walls()[i][j];
 			}
 		}
-		
+		list_item = new ArrayList<InfoItem>();
+
 	}
 
 	public void setListAgentsStart(ArrayList<Agent> listAgentsStart) {
@@ -182,12 +183,13 @@ public class BombermanGame extends Game implements Observable {
 					bombe.setStateBomb(StateBomb.Boom);
 					}
 			}
-			if(i < list_wall.length){
-				list_wall[i][y]=false;
-			}
+			if(i < list_wall.length)
+				if(list_wall[i][y]) {
+					list_wall[i][y]=false;
 					ItemType[] listitem = ItemType.values();
 					int item_random = (int) (Math.random()*listitem.length);
 					list_item.add(new InfoItem(i,y,listitem[item_random]));
+				}
 		}
 		
 		// TEST RANGE SOUTH
