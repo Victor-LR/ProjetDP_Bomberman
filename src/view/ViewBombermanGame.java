@@ -28,6 +28,7 @@ public class ViewBombermanGame implements Observer {
 	private static Map map_jeu;
 	private ArrayList<Agent> ListStartAgent;
 	private InterfaceController controleur;
+	private boolean[][] list_breakable_walls;
 
 	public ViewBombermanGame(InterfaceController control, BombermanGame Jeu, String filename) {
 		this.controleur = control;
@@ -36,6 +37,7 @@ public class ViewBombermanGame implements Observer {
 			map_jeu = new Map(filename);
 			this.Plateau_jeu = new PanelBomberman(map_jeu);
 			ListStartAgent = map_jeu.getStart_agents();
+			list_breakable_walls = map_jeu.getStart_brokable_walls();
 			Jeu.setListAgentsStart(ListStartAgent);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -63,7 +65,7 @@ public class ViewBombermanGame implements Observer {
 	public void update(Observable obs) {
 		BombermanGame jeu_bbm = (BombermanGame) obs;
 		//System.out.println(jeu_bbm.getAgentList().get(0).getType());
-		this.Plateau_jeu.setInfoGame(map_jeu.getStart_brokable_walls(), jeu_bbm.getAgentList(), jeu_bbm.getBombes());
+		this.Plateau_jeu.setInfoGame(jeu_bbm.getList_wall(), jeu_bbm.getAgentList(), jeu_bbm.getBombes());
 		this.Plateau_jeu.repaint();
 		//this.turn.setText("Tour n° :"+ simple_jeu.getTurn());
 	}
@@ -96,6 +98,10 @@ public class ViewBombermanGame implements Observer {
 		return false;
 	}
 	
+	public static Map getMap_jeu() {
+		return map_jeu;
+	}
+
 	public static boolean isFlying(Agent agent, AgentAction action) {
 		boolean[][] list_wall = map_jeu.get_walls();
 		

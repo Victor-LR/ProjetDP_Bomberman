@@ -21,6 +21,7 @@ public class BombermanGame extends Game implements Observable {
     private ArrayList<Agent> agentList;
     private ArrayList<Agent> ListAgentsStart;
     private ArrayList<InfoBomb> bombes;
+    private boolean[][] list_wall;
     
     public BombermanGame() {
 		agentList = new ArrayList<Agent>();
@@ -52,6 +53,8 @@ public class BombermanGame extends Game implements Observable {
 				agentList.add(ennemyFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), agent.getType(), agent.getColor(), agent.isInvincible(), agent.isSick()));
 			}
 		}
+		
+		list_wall=ViewBombermanGame.getMap_jeu().getStart_brokable_walls();
 	}
 
 	public void setListAgentsStart(ArrayList<Agent> listAgentsStart) {
@@ -151,10 +154,13 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == i && agent.getY() == y){
+				if(agent.getX() == i && agent.getY() == y && agent.getType()!='B'){
 					agents.remove(j);
-					}
 				}
+				if(list_wall[i][y]){
+					list_wall[i][y]=false;
+				}
+			}
 				
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
@@ -172,18 +178,21 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == x && agent.getY() == i){
+				if(agent.getX() == x && agent.getY() == i && agent.getType()!='B'){
 					agents.remove(j);
-					}
 				}
+				if(list_wall[x][i]){
+					list_wall[x][i]=false;
+				}
+			}
 				
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
-				if(bombe.getX() == x & bombe.getY() == i){
-					bombe.setStateBomb(StateBomb.Boom);
+					if(bombe.getX() == x & bombe.getY() == i ){
+						bombe.setStateBomb(StateBomb.Boom);
 					}
-				}
+			}
 				
 		}
 		
@@ -193,19 +202,22 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == i && agent.getY() == y){
+				if(agent.getX() == i && agent.getY() == y && agent.getType()!='B'){
 					agents.remove(j);
-					}
 				}
+				if(list_wall[i][y]){
+					list_wall[i][y]=false;
+				}
+			}
 				
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
-				if(bombe.getX() == i & bombe.getY() == y){
-					bombe.setStateBomb(StateBomb.Boom);
+					if(bombe.getX() == i & bombe.getY() == y){
+						bombe.setStateBomb(StateBomb.Boom);
 					}
-				}
-				
+			}
+	
 		}
 		
 		
@@ -214,9 +226,12 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == x && agent.getY() == i){
+				if(agent.getX() == x && agent.getY() == i && agent.getType()!='B'){
 					agents.remove(j);
 					}
+				if(list_wall[x][i]){
+					list_wall[x][i]=false;
+				}
 				}
 				
 			for(int j = 0; j<bombes.size(); j++){
@@ -273,6 +288,10 @@ public class BombermanGame extends Game implements Observable {
 	
 	public ArrayList<InfoBomb> getBombes() {
 		return bombes;
+	}
+
+	public boolean[][] getList_wall() {
+		return list_wall;
 	}
 	
 
