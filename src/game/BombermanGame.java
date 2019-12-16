@@ -186,9 +186,7 @@ public class BombermanGame extends Game implements Observable {
 			if(i < list_wall.length)
 				if(list_wall[i][y]) {
 					list_wall[i][y]=false;
-					ItemType[] listitem = ItemType.values();
-					int item_random = (int) (Math.random()*listitem.length);
-					list_item.add(new InfoItem(i,y,listitem[item_random]));
+					creerItem(i,y);
 				}
 		}
 		
@@ -213,9 +211,7 @@ public class BombermanGame extends Game implements Observable {
 			if(i < list_wall[x].length)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
-					ItemType[] listitem = ItemType.values();
-					int item_random = (int) (Math.random()*listitem.length);
-					list_item.add(new InfoItem(i,y,listitem[item_random]));
+					creerItem(x,i);
 				}
 		}
 		
@@ -240,9 +236,7 @@ public class BombermanGame extends Game implements Observable {
 			if(i > 0)
 				if(list_wall[i][y]){
 					list_wall[i][y]=false;
-					ItemType[] listitem = ItemType.values();
-					int item_random = (int) (Math.random()*listitem.length);
-					list_item.add(new InfoItem(i,y,listitem[item_random]));
+					creerItem(i,y);
 				}
 	
 		}
@@ -268,9 +262,7 @@ public class BombermanGame extends Game implements Observable {
 			if(i > 0)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
-					ItemType[] listitem = ItemType.values();
-					int item_random = (int) (Math.random()*listitem.length);
-					list_item.add(new InfoItem(i,y,listitem[item_random]));
+					creerItem(x,i);
 				}
 		}
 
@@ -350,6 +342,12 @@ public class BombermanGame extends Game implements Observable {
 	
 	public ArrayList<InfoItem> getList_item() {
 		return list_item;
+	}
+	
+	public void creerItem(int x, int y) {
+		ItemType[] listitem = ItemType.values();
+		int item_random = (int) (Math.random()*listitem.length);
+		list_item.add(new InfoItem(x,y,listitem[item_random]));
 	}
 
 }
