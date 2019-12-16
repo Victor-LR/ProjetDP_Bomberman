@@ -151,7 +151,7 @@ public class BombermanGame extends Game implements Observable {
 		
 		// TEST RANGE EAST
 		
-		for(int i = x; i<= bomb.getRange(); i++){
+		for(int i = x; i+bomb.getRange()<= x + bomb.getRange(); i++){
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
@@ -174,7 +174,7 @@ public class BombermanGame extends Game implements Observable {
 		
 		// TEST RANGE SOUTH
 		
-		for(int i = y; i<= bomb.getRange(); i++){
+		for(int i = y; i+bomb.getRange()<= y +bomb.getRange(); i++){
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
@@ -197,7 +197,7 @@ public class BombermanGame extends Game implements Observable {
 		
 		// TEST RANGE WEST
 		
-		for(int i = x; i>= bomb.getRange(); i--){
+		for(int i = x; i-bomb.getRange()>= x-bomb.getRange(); i--){
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
@@ -221,7 +221,7 @@ public class BombermanGame extends Game implements Observable {
 		
 		
 		// TEST RANGE NORTH
-		for(int i = y; i>= bomb.getRange(); i--){
+		for(int i = y; i-bomb.getRange()>= y-bomb.getRange(); i--){
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
