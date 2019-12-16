@@ -23,7 +23,7 @@ public class BombermanGame extends Game implements Observable {
     private ArrayList<Agent> agentList;
     private ArrayList<Agent> ListAgentsStart;
     private ArrayList<InfoBomb> bombes;
-    private boolean[][] list_wall;
+    private static boolean[][] list_wall;
     private ArrayList<InfoItem> list_item;
     
 
@@ -87,14 +87,13 @@ public class BombermanGame extends Game implements Observable {
 		
 			AgentAction[] listaction = AgentAction.values();
 			int action_random = (int) (Math.random()*listaction.length);
-			
-//			if(ViewBombermanGame.isLegalMove(agent,listaction[action_random])) {
-				moveAgent(agent,listaction[action_random]);
-				if (AgentAction.PUT_BOMB == listaction[action_random] && agent.getType()=='B')
-					placeBomb((Agent_Bomberman)agent);
-//			}
-//				moveAgent(agent,AgentAction.STOP);
-//			}else {
+			moveAgent(agent,listaction[action_random]);
+			if (agent.getType()=='B')
+				itemBoost(agent.getX(), agent.getY(), (Agent_Bomberman)agent);
+			if (AgentAction.PUT_BOMB == listaction[action_random] && agent.getType()=='B')
+			{
+				placeBomb((Agent_Bomberman)agent);
+			}
 		}
 		bombeTurn();
 	}
@@ -120,7 +119,9 @@ public class BombermanGame extends Game implements Observable {
 		case MOVE_UP:
 			agent.setAgentAction(action);
 			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+			{
 				agent.setY(y-1);
+			}
 			else
 				agent.setAgentAction(AgentAction.STOP);
 			break;
@@ -128,7 +129,9 @@ public class BombermanGame extends Game implements Observable {
 		case MOVE_DOWN:
 			agent.setAgentAction(action);
 			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+			{
 				agent.setY(y+1);
+			}
 			else
 				agent.setAgentAction(AgentAction.STOP);
 			break;
@@ -136,7 +139,9 @@ public class BombermanGame extends Game implements Observable {
 		case MOVE_LEFT:
 			agent.setAgentAction(action);
 			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+			{
 				agent.setX(x-1);
+			}
 			else
 				agent.setAgentAction(AgentAction.STOP);
 			break;
@@ -144,7 +149,9 @@ public class BombermanGame extends Game implements Observable {
 		case MOVE_RIGHT:
 			agent.setAgentAction(action);
 			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+			{
 				agent.setX(x+1);
+			}
 			else
 				agent.setAgentAction(AgentAction.STOP);
 			break;
@@ -349,5 +356,67 @@ public class BombermanGame extends Game implements Observable {
 		int item_random = (int) (Math.random()*listitem.length);
 		list_item.add(new InfoItem(x,y,listitem[item_random]));
 	}
-
+	
+	public void itemBoost(int x, int y, Agent_Bomberman agent) {
+		for(int i=0; i < list_item.size();i++)
+		{
+			if(list_item.get(i).getX()==x && list_item.get(i).getY()==y && agent.getType()=='B')
+			{
+				switch(list_item.get(i).getType()) {
+					case BOMB_DOWN:
+						if(agent.getNbBombes()>1)
+						{
+							System.out.println("BOMB DOWN");
+							agent.setNbBombes(agent.getNbBombes()-1);
+						}
+						break;
+					case BOMB_UP:
+						agent.setNbBombes(agent.getNbBombes()+1);
+						break;
+					case FIRE_DOWN:
+						if(agent.getRange()>1)
+							agent.setRange(agent.getRange()-1);
+						break;
+					case FIRE_UP:
+						agent.setRange(agent.getRange()+1);
+						break;
+					case FIRE_SUIT:
+						agent.setInvincible(true);
+						break;
+					case SKULL:
+						break;
+					default:
+						break;
+				}
+				list_item.remove(i);
+			}
+		}
+	}
+	
+	public static boolean isLegalMove(Agent agent, AgentAction action) {
+		boolean[][] liste_unbreakable_wall = ViewBombermanGame.getMap_jeu().get_walls();
+		
+		switch (action) {
+			case MOVE_DOWN:
+				if (!liste_unbreakable_wall[agent.getX()][agent.getY()+1] && !list_wall[agent.getX()][agent.getY()+1])
+					return true;
+				break;
+			case MOVE_UP:
+				if (!liste_unbreakable_wall[agent.getX()][agent.getY()-1] && !list_wall[agent.getX()][agent.getY()-1])
+					return true;
+				break;
+			case MOVE_RIGHT:
+				if (!liste_unbreakable_wall[agent.getX()+1][agent.getY()] && !list_wall[agent.getX()+1][agent.getY()])
+					//System.out.println(!list_wall[agent.getX()+1][agent.getY()]);
+					return true;
+				break;
+			case MOVE_LEFT:
+				if (!liste_unbreakable_wall[agent.getX()-1][agent.getY()] && !list_wall[agent.getX()-1][agent.getY()])
+					return true;
+				break;
+			default:
+				break;
+		}
+		return false;
+	}
 }

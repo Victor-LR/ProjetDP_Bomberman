@@ -2,6 +2,7 @@ package agents;
 
 import java.util.ArrayList;
 
+import game.BombermanGame;
 import strategie.Comportement;
 import view.ViewBombermanGame;
 
@@ -97,7 +98,7 @@ public class Agent implements Comportement{
 	@Override
 	public AgentAction doAction(ArrayList<Agent> agent, AgentAction action) {
 		// TODO Auto-generated method stub
-		if (ViewBombermanGame.isLegalMove(this, action))
+		if (BombermanGame.isLegalMove(this, action))
 			return action;
 		else
 			return AgentAction.STOP;
