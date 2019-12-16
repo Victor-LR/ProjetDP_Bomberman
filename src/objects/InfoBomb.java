@@ -1,10 +1,14 @@
 package objects;
 
+import java.util.ArrayList;
+
 public class InfoBomb {
 	
 	private int x;
 	private int y;
 	private int range;
+	private int[] range_wall;
+	
 		
 	StateBomb stateBomb;
 
@@ -12,12 +16,28 @@ public class InfoBomb {
 		this.x=x;
 		this.y=y;
 		this.range=range;
+		this.range_wall = new int[4];
+		for(int i = 0 ; i< 4 ; i++) {
+			range_wall[i]=range;
+		}
 		this.stateBomb = stateBomb;
 
 	}
 
 
 	
+	public int getRange_wall_at(int index) {
+		return range_wall[index];
+	}
+
+
+
+	public void setRange_wall_at(int index, int r) {
+		this.range_wall[index] = r;
+	}
+
+
+
 	public int getX() {
 		return x;
 	}
