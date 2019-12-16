@@ -1,6 +1,10 @@
 package agents;
 
-public class Agent_Rajion extends Agent {
+import java.util.ArrayList;
+
+import strategie.Comportement;
+
+public class Agent_Rajion extends Agent_Ennemi {
 
 	public Agent_Rajion(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible,
 			boolean isSick) {
