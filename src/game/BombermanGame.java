@@ -54,7 +54,16 @@ public class BombermanGame extends Game implements Observable {
 			}
 		}
 		
-		list_wall=ViewBombermanGame.getMap_jeu().getStart_brokable_walls();
+		int tailleX = ViewBombermanGame.getMap_jeu().getStart_brokable_walls().length;
+		int tailleY = ViewBombermanGame.getMap_jeu().getStart_brokable_walls()[0].length;
+		list_wall = new boolean[tailleX][tailleY];
+		
+		for(int i = 0 ; i < tailleX ; i++) {
+			for(int j = 0 ; j < tailleY ; j++) {
+				list_wall[i][j] = ViewBombermanGame.getMap_jeu().getStart_brokable_walls()[i][j];
+			}
+		}
+		
 	}
 
 	public void setListAgentsStart(ArrayList<Agent> listAgentsStart) {
@@ -169,9 +178,6 @@ public class BombermanGame extends Game implements Observable {
 			}
 			if(i < list_wall.length){
 				list_wall[i][y]=false;
-			}else
-			{
-				System.out.println("				"+list_wall.length);
 			}
 		}
 		
