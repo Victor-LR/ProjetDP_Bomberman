@@ -36,8 +36,24 @@ public class BombermanGame extends Game implements Observable {
 
 	@Override
 	public boolean gameContinue() {
-		// TODO Auto-generated method stub
-		return true;
+		//Si le jeu ne contient plus qu'un seul agent qui est un bomberman -> Game Over
+		//Si le jeu ne contient plus de bombermans -> Game Over
+		
+		if (agentList.size()==1 && agentList.get(0).getType()=='B')
+		{
+			System.out.println("Plus d'ennemies !");
+			return false;
+		}
+		for(int i = 0; i<agentList.size();i++) {
+			if (agentList.get(i).getType()=='B')
+				return true;
+			if (i==agentList.size()-1)
+			{
+				System.out.println("Plus de bomberman !");
+				return false;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -91,10 +107,14 @@ public class BombermanGame extends Game implements Observable {
 			moveAgent(agent,listaction[action_random]);
 			if (agent.getType()=='B') {
 				itemBoost(agent.getX(), agent.getY(), (Agent_Bomberman)agent);
-				if (AgentAction.PUT_BOMB == listaction[action_random] )
-				{
-					placeBomb((Agent_Bomberman)agent);
-				}
+//				if (AgentAction.PUT_BOMB == listaction[action_random] )
+//				{
+//					placeBomb((Agent_Bomberman)agent);
+//				}
+			}
+			else
+			{
+				bombermanKill(agent);
 			}
 		}
 		bombeTurn();
@@ -103,7 +123,7 @@ public class BombermanGame extends Game implements Observable {
 	@Override
 	public void gameOver() {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Fin du jeu " + this.turn);
 	}
 	
 	public ArrayList<Agent> getAgentList() {
@@ -423,6 +443,16 @@ public class BombermanGame extends Game implements Observable {
 						break;
 				}
 				list_item.remove(i);
+			}
+		}
+	}
+	
+	public void bombermanKill(Agent agent) {
+		for(int i=0; i < agentList.size();i++)
+		{
+			if(agentList.get(i).getX()==agent.getX() && agentList.get(i).getY()==agent.getY() && agentList.get(i).getType()=='B')
+			{
+				agentList.remove(i);
 			}
 		}
 	}

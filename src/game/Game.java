@@ -10,13 +10,13 @@ public abstract class Game implements Runnable, Observable {
 	protected int maxTurn;
 	protected ArrayList<Observer> List_observers = new ArrayList<Observer>();
 	
-	private boolean isRunning;
+	protected boolean isRunning;
 	
 	private Thread thread;
 	private long time = 1000;
 	
 	public Game() {
-		this.maxTurn = 500;
+		this.maxTurn = 100;
 	}
 
 	//Initialisation du Jeu
