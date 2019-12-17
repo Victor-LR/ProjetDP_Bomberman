@@ -94,6 +94,7 @@ public class BombermanGame extends Game implements Observable {
 	}
 	
 	@Override
+	//Action effectué pour chaque agent
 	public void takeTurn() {
 		// TODO Auto-generated method stub
 		System.out.println("Tour "+this.turn+" en cours");
@@ -107,10 +108,12 @@ public class BombermanGame extends Game implements Observable {
 			moveAgent(agent,listaction[action_random]);
 			if (agent.getType()=='B') {
 				itemBoost(agent.getX(), agent.getY(), (Agent_Bomberman)agent);
-//				if (AgentAction.PUT_BOMB == listaction[action_random] )
-//				{
-//					placeBomb((Agent_Bomberman)agent);
-//				}
+				if (AgentAction.PUT_BOMB == listaction[action_random] && !agent.isSick())
+				{
+					placeBomb((Agent_Bomberman)agent);
+				}
+				invTurn((Agent_Bomberman)agent);
+				sicTurn((Agent_Bomberman)agent);
 			}
 			else
 			{
@@ -197,7 +200,7 @@ public class BombermanGame extends Game implements Observable {
 		}
 	}*/
 	
-	//Réalise l'explosion d'une et ses conséquences
+	//Réalise l'explosion d'une bombe et ses conséquences
 	public void bombExplode(InfoBomb bomb)
 	{
 		int x = bomb.getX();
@@ -205,7 +208,6 @@ public class BombermanGame extends Game implements Observable {
 		
 		ArrayList<Agent> agents = this.agentList;
 		
-		System.out.println("Taille " + list_wall.length);
 		// TEST RANGE EAST
 		
 		for(int i = x; i<= x + bomb.getRange(); i++){
@@ -224,7 +226,6 @@ public class BombermanGame extends Game implements Observable {
 					bombe.setStateBomb(StateBomb.Boom);
 					}
 				bombe.setRange_wall_at(0, i-x);
-				System.out.println("        EAST");
 			}
 			
 			if(i < list_wall.length)
@@ -253,7 +254,6 @@ public class BombermanGame extends Game implements Observable {
 						bombe.setStateBomb(StateBomb.Boom);
 					}
 				bombe.setRange_wall_at(1, i-y);
-				System.out.println("        EAST");
 			}
 			if(i < list_wall[x].length)
 				if(list_wall[x][i]){
@@ -281,7 +281,6 @@ public class BombermanGame extends Game implements Observable {
 						bombe.setStateBomb(StateBomb.Boom);
 					}
 				bombe.setRange_wall_at(2, x-i);
-				System.out.println("        WEST");
 			}
 			if(i > 0)
 				if(list_wall[i][y]){
@@ -310,7 +309,6 @@ public class BombermanGame extends Game implements Observable {
 					bombe.setStateBomb(StateBomb.Boom);
 					}
 				bombe.setRange_wall_at(3, y-i);
-				System.out.println("        NORTH");
 			}
 			
 			if(i > 0)
@@ -401,16 +399,18 @@ public class BombermanGame extends Game implements Observable {
 		return list_item;
 	}
 	
+	//Créer un item à l'endroit du mur brisé
 	public void creerItem(int x, int y) {
 		ItemType[] listitem = ItemType.values();
 		int drop_random = (int) (Math.random()*100);
-		System.out.println("drop " + drop_random);
 		if(drop_random < 40) {
 			int item_random = (int) (Math.random()*listitem.length);
 			list_item.add(new InfoItem(x,y,listitem[item_random]));
 		}
 	}
 	
+	//Améliore le bomberman en fonction de l'item ramassé
+	//Le bomberman pourra toujours avoir une bombe et/ou une range de 1 malgré les malus
 	public void itemBoost(int x, int y, Agent_Bomberman agent) {
 		for(int i=0; i < list_item.size();i++)
 		{
@@ -438,6 +438,8 @@ public class BombermanGame extends Game implements Observable {
 						agent.setTourInv(this.turn);
 						break;
 					case SKULL:
+						agent.setSick(true);
+						agent.setTourSic(this.turn);
 						break;
 					default:
 						break;
@@ -450,7 +452,7 @@ public class BombermanGame extends Game implements Observable {
 	public void bombermanKill(Agent agent) {
 		for(int i=0; i < agentList.size();i++)
 		{
-			if(agentList.get(i).getX()==agent.getX() && agentList.get(i).getY()==agent.getY() && agentList.get(i).getType()=='B')
+			if(agentList.get(i).getX()==agent.getX() && agentList.get(i).getY()==agent.getY() && !agentList.get(i).isInvincible() && agentList.get(i).getType()=='B')
 			{
 				agentList.remove(i);
 			}
@@ -482,5 +484,17 @@ public class BombermanGame extends Game implements Observable {
 				break;
 		}
 		return false;
+	}
+	
+	//Enlève la maladie 10 tours plus tard
+	public void sicTurn(Agent_Bomberman agent) {
+		if(agent.getTourSic()+10 == this.turn)
+			agent.setSick(false);
+	}
+
+	//Enlève l'invincibilité 10 tours plus tard
+	public void invTurn(Agent_Bomberman agent) {
+		if(agent.getTourInv()+10 == this.turn)
+			agent.setInvincible(false);
 	}
 }
