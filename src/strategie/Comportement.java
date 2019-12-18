@@ -6,5 +6,6 @@ import agents.Agent;
 import agents.AgentAction;
 
 public interface Comportement {
-	public AgentAction doAction(ArrayList<Agent> agent, AgentAction action);
+	public AgentAction doAction(Agent agent, ArrayList<Agent> agents);
+
 }

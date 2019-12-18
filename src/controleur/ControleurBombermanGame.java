@@ -12,8 +12,8 @@ public class ControleurBombermanGame implements InterfaceController {
 	
 	public ControleurBombermanGame(BombermanGame Jeu) {
 		
-		vue_commande = new ViewCommand(this,Jeu);
-		vue_jeu = new ViewBombermanGame(this,Jeu,"layouts/niveau2.lay");
+		 vue_commande = new ViewCommand(this,Jeu);
+		 vue_jeu = new ViewBombermanGame(this,Jeu,"layouts/alone.lay");
 		this.Jeu_bomberman = Jeu;
 	}
 

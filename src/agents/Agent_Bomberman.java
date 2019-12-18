@@ -1,5 +1,7 @@
 package agents;
 
+import strategie.Comportement;
+
 public class Agent_Bomberman extends Agent{
 
 	private int range;
@@ -10,9 +12,9 @@ public class Agent_Bomberman extends Agent{
 	private int tourSic;
 	
 	public Agent_Bomberman(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible,
-			boolean isSick) {
-		super(x, y, agentAction, type, color, isInvincible, isSick);
-		this.range = 4;
+			boolean isSick,Comportement strat) {
+		super(x, y, agentAction, type, color, isInvincible, isSick,strat);
+		this.range = 2;
 		this.nbBombes = 1;
 		this.tourInv = 0;
 		this.tourSic = 0;

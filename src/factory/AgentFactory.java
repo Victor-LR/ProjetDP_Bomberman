@@ -3,6 +3,7 @@ package factory;
 import agents.Agent;
 import agents.AgentAction;
 import agents.ColorAgent;
+import strategie.Comportement;
 
 public abstract class AgentFactory {
 

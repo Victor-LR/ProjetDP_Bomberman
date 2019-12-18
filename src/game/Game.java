@@ -16,7 +16,7 @@ public abstract class Game implements Runnable, Observable {
 	private long time = 1000;
 	
 	public Game() {
-		this.maxTurn = 100;
+		this.maxTurn = 500;
 	}
 
 	//Initialisation du Jeu

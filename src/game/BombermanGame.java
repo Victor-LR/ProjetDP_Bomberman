@@ -11,6 +11,7 @@ import objects.InfoBomb;
 import objects.InfoItem;
 import objects.ItemType;
 import objects.StateBomb;
+import strategie.Strategie_Aleatoire;
 import view.ViewBombermanGame;
 
 public class BombermanGame extends Game implements Observable {
@@ -57,6 +58,7 @@ public class BombermanGame extends Game implements Observable {
 		agentList = new ArrayList<Agent>();
 		EnnemyFactory ennemyFactory=new EnnemyFactory();
 		BombermanFactory bombermanFactory=new BombermanFactory();
+		bombes = new ArrayList<InfoBomb>();
 		list_item = new ArrayList<InfoItem>();
 		
 		for(Agent agent : ListAgentsStart)
@@ -91,19 +93,19 @@ public class BombermanGame extends Game implements Observable {
 	@Override
 	//Action effectué pour chaque agent
 	public void takeTurn() {
-		// TODO Auto-generated method stub
 		System.out.println("Tour "+this.turn+" en cours");
+		
 		for(int i = 0; i < agentList.size(); i++) {
 			
 			Agent agent = agentList.get(i);
-			//System.out.println(agent.getX()+"			"+agent.getY());
 		
-			AgentAction[] listaction = AgentAction.values();
-			int action_random = (int) (Math.random()*listaction.length);
-			moveAgent(agent,listaction[action_random]);
+			AgentAction action = agent.doAction(agentList);
+			
+			moveAgent(agent,action);
+			
 			if (agent.getType()=='B') {
 				itemBoost(agent.getX(), agent.getY(), (Agent_Bomberman)agent);
-				if (AgentAction.PUT_BOMB == listaction[action_random] && !agent.isSick())
+				if (AgentAction.PUT_BOMB == action && !agent.isSick())
 				{
 					placeBomb((Agent_Bomberman)agent);
 				}
@@ -138,45 +140,46 @@ public class BombermanGame extends Game implements Observable {
 		//MOVE_UP,MOVE_DOWN,MOVE_LEFT,MOVE_RIGHT,STOP,PUT_BOMB
 		case MOVE_UP:
 			agent.setAgentAction(action);
-			if(agent.doAction(agentList, action)!=AgentAction.STOP)
-			{
+//			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+//			{
 				agent.setY(y-1);
-			}
-			else
-				agent.setAgentAction(AgentAction.STOP);
+//			}
+//			else
+//				agent.setAgentAction(AgentAction.STOP);
 			break;
 			
 		case MOVE_DOWN:
 			agent.setAgentAction(action);
-			if(agent.doAction(agentList, action)!=AgentAction.STOP)
-			{
+//			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+//			{
 				agent.setY(y+1);
-			}
-			else
+//			}
+//			else
 				agent.setAgentAction(AgentAction.STOP);
 			break;
 
 		case MOVE_LEFT:
 			agent.setAgentAction(action);
-			if(agent.doAction(agentList, action)!=AgentAction.STOP)
-			{
+//			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+//			{
 				agent.setX(x-1);
-			}
-			else
-				agent.setAgentAction(AgentAction.STOP);
+//			}
+//			else
+//				agent.setAgentAction(AgentAction.STOP);
 			break;
 			
 		case MOVE_RIGHT:
 			agent.setAgentAction(action);
-			if(agent.doAction(agentList, action)!=AgentAction.STOP)
-			{
+//			if(agent.doAction(agentList, action)!=AgentAction.STOP)
+//			{
 				agent.setX(x+1);
-			}
-			else
-				agent.setAgentAction(AgentAction.STOP);
+//			}
+//			else
+//				agent.setAgentAction(AgentAction.STOP);
 			break;
 			
 		case STOP:
+		case PUT_BOMB:
 		default:
 			agent.setAgentAction(AgentAction.STOP);
 			break;
@@ -473,6 +476,8 @@ public class BombermanGame extends Game implements Observable {
 				if (!liste_unbreakable_wall[agent.getX()-1][agent.getY()] && !list_wall[agent.getX()-1][agent.getY()])
 					return true;
 				break;
+			case PUT_BOMB:
+				return true;
 			default:
 				break;
 		}
