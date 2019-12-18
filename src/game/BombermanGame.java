@@ -9,6 +9,7 @@ import agents.Agent_Bomberman;
 import factory.BombermanFactory;
 import factory.EnnemyFactory;
 import key.Keys;
+import key.Keys_2;
 import objects.InfoBomb;
 import objects.InfoItem;
 import objects.ItemType;
@@ -27,6 +28,9 @@ public class BombermanGame extends Game implements Observable {
     private BombermanFactory bombermanFactory;
     
     private static Keys key_1;
+    private static Keys_2 key_2;
+    
+    private ArrayList<String> nom_strats;
     
 
 	public BombermanGame() {
@@ -35,6 +39,7 @@ public class BombermanGame extends Game implements Observable {
 		bombes = new ArrayList<InfoBomb>();
 		list_item = new ArrayList<InfoItem>();
 		key_1 = new Keys();
+		key_2 = new Keys_2();
 		
     }
 
@@ -69,15 +74,18 @@ public class BombermanGame extends Game implements Observable {
 		bombes = new ArrayList<InfoBomb>();
 		list_item = new ArrayList<InfoItem>();
 		
+		int ind_bbm = 0;
 		for(Agent agent : ListAgentsStart)
 		{
 			if(agent.getType()=='B') {
 				System.out.println("Bomb");
-				agentList.add(bombermanFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), 'B', agent.getColor(), agent.isInvincible(), agent.isSick()));
+				agentList.add(bombermanFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), 'B', agent.getColor(), agent.isInvincible(), agent.isSick(),this.getNom_strats().get(ind_bbm)));
+				System.out.println(this.getNom_strats().get(ind_bbm));
+				ind_bbm++;
 			}
 			else {
 				System.out.println("Enn");
-				agentList.add(ennemyFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), agent.getType(), agent.getColor(), agent.isInvincible(), agent.isSick()));
+				agentList.add(ennemyFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), agent.getType(), agent.getColor(), agent.isInvincible(), agent.isSick(),null));
 			}
 		}
 		
@@ -511,5 +519,17 @@ public class BombermanGame extends Game implements Observable {
 	
 	public static Keys getKey_1() {
 		return key_1;
+	}
+	
+	public static Keys_2 getKey_2() {
+		return key_2;
+	}
+
+	public ArrayList<String> getNom_strats() {
+		return nom_strats;
+	}
+
+	public void setNom_strats(ArrayList<String> nom_strats) {
+		this.nom_strats = nom_strats;
 	}
 }

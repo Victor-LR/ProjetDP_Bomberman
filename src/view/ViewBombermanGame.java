@@ -7,6 +7,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import agents.Agent;
 import controleur.InterfaceController;
 import game.BombermanGame;
@@ -40,6 +42,7 @@ public class ViewBombermanGame implements Observer {
 		}
 		
 		Plateau_jeu.addKeyListener(Jeu.getKey_1());
+		Plateau_jeu.addKeyListener(Jeu.getKey_2());
 		
 		jframe_bbm.setTitle("Game");
 		jframe_bbm.setSize(new Dimension(map_jeu.getSizeX()*45, (map_jeu.getSizeY()*45+150)));
@@ -54,7 +57,12 @@ public class ViewBombermanGame implements Observer {
 		jframe_bbm.setLayout(new BorderLayout());
 		
 		jframe_bbm.add("Center",Plateau_jeu);
-		//vue_commande = new ViewCommand(controleur,Jeu,jframe_bbm);
+		
+		PanelStrategie p_strat = new PanelStrategie(map_jeu);
+		Jeu.setNom_strats(p_strat.getStrats());
+		
+		jframe_bbm.add("South",p_strat);
+		
 		jframe_bbm.setVisible(true);
 		
 	}

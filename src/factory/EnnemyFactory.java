@@ -13,7 +13,7 @@ import strategie.Strategie_Bird;
 
 public class EnnemyFactory extends AgentFactory{
 
-	public Agent createAgent(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible, boolean isSick) {
+	public Agent createAgent(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible, boolean isSick,String nom_strategie) {
 		// TODO Auto-generated method stub
 		switch(String.valueOf(type)) {
 			

@@ -60,6 +60,8 @@ public class ViewCommand implements Observer{
         int dy = centerPoint.y - windowSize.height / 2 - 350; 
         vueCommand.setLocation(dx, dy);*/
 		vueCommand = new JPanel();
+
+		
 		
 		JPanel panneauState = new JPanel(new GridLayout(2, 1));
 		JPanel panneauCommande = new JPanel(new GridLayout(1, 4));
