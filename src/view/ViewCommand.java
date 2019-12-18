@@ -27,7 +27,7 @@ import game.SimpleGame;
 
 public class ViewCommand implements Observer{
 
-	private JFrame vueCommand = new JFrame();
+	private JPanel vueCommand /*= new JFrame()*/;
 	
 
 	private InterfaceController controller;
@@ -41,26 +41,32 @@ public class ViewCommand implements Observer{
 	
 	private JLabel turn = new JLabel();
 	
-	public ViewCommand(InterfaceController control ,BombermanGame jeu) {
+	public ViewCommand(InterfaceController control ,BombermanGame jeu, JFrame frame) {
 
 		this.controller=control;
 		jeu.registerObserver(this);
 		
-		vueCommand = new JFrame();
+		//vueCommand = frame;
+		
+		/*vueCommand = new JFrame();
 		vueCommand.setTitle("Commande");
 		vueCommand.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		vueCommand.setSize(new Dimension(700, 300));
+		vueCommand.setSize(new Dimension(700, 300));*/
 		
-		Dimension windowSize = vueCommand.getSize();
+		/*Dimension windowSize = vueCommand.getSize();
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         Point centerPoint = ge.getCenterPoint();
         int dx = centerPoint.x - windowSize.width / 2 ;
         int dy = centerPoint.y - windowSize.height / 2 - 350; 
-        vueCommand.setLocation(dx, dy);
+        vueCommand.setLocation(dx, dy);*/
+		vueCommand = new JPanel();
 
+		
+		
 		JPanel panneauState = new JPanel(new GridLayout(2, 1));
 		JPanel panneauCommande = new JPanel(new GridLayout(1, 4));
 		JPanel panneauTour = new JPanel(new GridLayout(1, 2)); 
+		
 		
 	//Bouton Restart
 		Icon icon_restart = new ImageIcon("Icones/icon_restart.png");
@@ -99,6 +105,7 @@ public class ViewCommand implements Observer{
 				StepChoice.setEnabled(false);
 				InitChoice.setEnabled(false);
 				RunChoice.setEnabled(false);
+				
 			}
 			});
 	//Bouton Pause
@@ -146,6 +153,8 @@ public class ViewCommand implements Observer{
 		vueCommand.add(panneauState);
 		vueCommand.setVisible(true);
 		
+		
+		
 	//Liste Map
 		MapChoice=new JComboBox();
 		File repertoire = new File("layouts");
@@ -161,7 +170,11 @@ public class ViewCommand implements Observer{
 				controller.changeMap(MapChoice.getSelectedItem().toString());
 			}
 		});
+		
+		
 		panneauCommande.add(MapChoice);
+		frame.add("North",vueCommand);
+		frame.setSize(new Dimension(frame.getWidth()+1,frame.getHeight()+1));
 		
 	}
 
@@ -173,7 +186,7 @@ public class ViewCommand implements Observer{
 		
 	}
 
-	public JFrame getVueCommand() {
+	public JPanel getVueCommand() {
 		return vueCommand;
 	}
 }

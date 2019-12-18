@@ -6,7 +6,7 @@ import game.BombermanGame;
 import strategie.Comportement;
 import view.ViewBombermanGame;
 
-public class Agent implements Comportement{
+public class Agent {
 
 	private int x;
 	private int y;
@@ -17,7 +17,9 @@ public class Agent implements Comportement{
 	private boolean isInvincible;
 	private boolean isSick;
 	
-	public Agent(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible, boolean isSick) {
+	private Comportement strategie;
+	
+	public Agent(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible, boolean isSick,Comportement strat) {
 		this.x=x;
 		this.y=y;
 		this.agentAction = agentAction;
@@ -26,6 +28,8 @@ public class Agent implements Comportement{
 		
 		this.isInvincible = isInvincible;
 		this.isSick = isSick;
+		
+		this.strategie = strat;
 	}
 
 	
@@ -95,13 +99,13 @@ public class Agent implements Comportement{
 	}
 
 
-	@Override
-	public AgentAction doAction(ArrayList<Agent> agent, AgentAction action) {
+	public AgentAction doAction(ArrayList<Agent> agents) {
 		// TODO Auto-generated method stub
-		if (BombermanGame.isLegalMove(this, action))
-			return action;
-		else
-			return AgentAction.STOP;
+		return this.strategie.doAction(this, agents);
+//		if (BombermanGame.isLegalMove(this, action))
+//			return action;
+//		else
+//			return AgentAction.STOP;
 	}
 
 }

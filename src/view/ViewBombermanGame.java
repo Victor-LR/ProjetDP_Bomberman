@@ -7,11 +7,14 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import agents.Agent;
 import controleur.InterfaceController;
 import game.BombermanGame;
 import game.Observable;
 import map.Map;
+import strategie.Strategie_Joueur1;
 
 public class ViewBombermanGame implements Observer {
 	
@@ -38,8 +41,11 @@ public class ViewBombermanGame implements Observer {
 			e.printStackTrace();
 		}
 		
+		Plateau_jeu.addKeyListener(Jeu.getKey_1());
+		Plateau_jeu.addKeyListener(Jeu.getKey_2());
+		
 		jframe_bbm.setTitle("Game");
-		jframe_bbm.setSize(new Dimension(map_jeu.getSizeX()*50, (map_jeu.getSizeY()*50)));
+		jframe_bbm.setSize(new Dimension(map_jeu.getSizeX()*45, (map_jeu.getSizeY()*45+150)));
 		Dimension windowSize = jframe_bbm.getSize();
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Point centerPoint = ge.getCenterPoint();
@@ -51,6 +57,12 @@ public class ViewBombermanGame implements Observer {
 		jframe_bbm.setLayout(new BorderLayout());
 		
 		jframe_bbm.add("Center",Plateau_jeu);
+		
+		PanelStrategie p_strat = new PanelStrategie(map_jeu);
+		Jeu.setNom_strats(p_strat.getStrats());
+		
+		jframe_bbm.add("South",p_strat);
+		
 		jframe_bbm.setVisible(true);
 		
 	}
@@ -61,10 +73,12 @@ public class ViewBombermanGame implements Observer {
 
 	@Override
 	public void update(Observable obs) {
+		this.Plateau_jeu.repaint();
+		this.Plateau_jeu.requestFocusInWindow();
 		BombermanGame jeu_bbm = (BombermanGame) obs;
 		//System.out.println(jeu_bbm.getAgentList().get(0).getType());
 		this.Plateau_jeu.setInfoGame(jeu_bbm.getList_wall(), jeu_bbm.getAgentList(),jeu_bbm.getList_item(), jeu_bbm.getBombes());
-		this.Plateau_jeu.repaint();
+
 		//this.turn.setText("Tour n° :"+ simple_jeu.getTurn());
 	}
 	
