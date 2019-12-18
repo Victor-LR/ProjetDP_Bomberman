@@ -1,9 +1,5 @@
 package agents;
 
-import java.util.ArrayList;
-
-import strategie.Comportement;
-
 public class Agent_Bomberman extends Agent{
 
 	private int range;

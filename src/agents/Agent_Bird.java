@@ -2,8 +2,8 @@ package agents;
 
 import java.util.ArrayList;
 
-import strategie.Comportement;
-import view.ViewBombermanGame;
+import game.BombermanGame;
+
 
 public class Agent_Bird extends Agent_Ennemi{
 
@@ -18,12 +18,12 @@ public class Agent_Bird extends Agent_Ennemi{
 		for(int i =0; i<agent.size(); i++) {
 //			 Détecte un bomberman sur un rayon de 3 cases
 			System.out.println(agent.get(i).getType() +"   "+agent.get(i).getX() + "    " + agent.get(i).getY());
-			if(agent.get(i).getType()=='B' && (agent.get(i).getX()< this.getX()+3) && (agent.get(i).getX() > this.getX()-3) && (agent.get(i).getY() <= this.getY()+3) && (agent.get(i).getY() >= this.getY()-3) && ViewBombermanGame.isFlying(this, action))
+			if(agent.get(i).getType()=='B' && (agent.get(i).getX()< this.getX()+3) && (agent.get(i).getX() > this.getX()-3) && (agent.get(i).getY() <= this.getY()+3) && (agent.get(i).getY() >= this.getY()-3) && BombermanGame.isFlying(this, action))
 			{
 				return action;
 			}
 		}
-		return action.STOP;
+		return AgentAction.STOP;
 	}
 
 }

@@ -7,23 +7,16 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import agents.Agent;
-import agents.AgentAction;
-import agents.InfoAgent;
 import controleur.InterfaceController;
 import game.BombermanGame;
 import game.Observable;
-import game.SimpleGame;
 import map.Map;
-import objects.InfoBomb;
-import objects.InfoItem;
 
 public class ViewBombermanGame implements Observer {
 	
 	
-	private JFrame jframe_bbm = new JFrame();
+	private JFrame jframe_bbm;
 	private PanelBomberman Plateau_jeu;
 	private static Map map_jeu;
 	private ArrayList<Agent> ListStartAgent;
@@ -33,6 +26,7 @@ public class ViewBombermanGame implements Observer {
 	public ViewBombermanGame(InterfaceController control, BombermanGame Jeu, String filename) {
 		this.controleur = control;
 		Jeu.registerObserver(this);
+		jframe_bbm = new JFrame();
 		try {
 			map_jeu = new Map(filename);
 			this.Plateau_jeu = new PanelBomberman(map_jeu);
@@ -61,6 +55,10 @@ public class ViewBombermanGame implements Observer {
 		
 	}
 
+	public JFrame getJframe_bbm() {
+		return jframe_bbm;
+	}
+
 	@Override
 	public void update(Observable obs) {
 		BombermanGame jeu_bbm = (BombermanGame) obs;
@@ -75,30 +73,5 @@ public class ViewBombermanGame implements Observer {
 		return map_jeu;
 	}
 
-	public static boolean isFlying(Agent agent, AgentAction action) {
-		boolean[][] list_wall = map_jeu.get_walls();
-		
-		switch (action) {
-			case MOVE_DOWN:
-				if (!list_wall[agent.getX()][agent.getY()+1])
-					return true;
-				break;
-			case MOVE_UP:
-				if (!list_wall[agent.getX()][agent.getY()-1])
-					return true;
-				break;
-			case MOVE_RIGHT:
-				if (!list_wall[agent.getX()+1][agent.getY()])
-					//System.out.println(!list_wall[agent.getX()+1][agent.getY()]);
-					return true;
-				break;
-			case MOVE_LEFT:
-				if (!list_wall[agent.getX()-1][agent.getY()])
-					return true;
-				break;
-			default:
-				break;
-		}
-		return false;
-	}
+	
 }

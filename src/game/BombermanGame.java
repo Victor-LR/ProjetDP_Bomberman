@@ -4,14 +4,9 @@ import java.util.ArrayList;
 
 import agents.Agent;
 import agents.AgentAction;
-import agents.Agent_Bird;
 import agents.Agent_Bomberman;
-import agents.Agent_Rajion;
-import agents.ColorAgent;
-import factory.AgentFactory;
 import factory.BombermanFactory;
 import factory.EnnemyFactory;
-import map.Map;
 import objects.InfoBomb;
 import objects.InfoItem;
 import objects.ItemType;
@@ -327,9 +322,7 @@ public class BombermanGame extends Game implements Observable {
 		
 		for(int i = 0; i < bombes.size(); i++){
 
-			InfoBomb bombe = bombes.get(i);			
-				StateBomb etat_bombe = bombe.getStateBomb();
-				
+			InfoBomb bombe = bombes.get(i);							
 				switch(bombe.getStateBomb()) {
 				case Step1:
 					bombe.setStateBomb(StateBomb.Step2);
@@ -478,6 +471,33 @@ public class BombermanGame extends Game implements Observable {
 				break;
 			case MOVE_LEFT:
 				if (!liste_unbreakable_wall[agent.getX()-1][agent.getY()] && !list_wall[agent.getX()-1][agent.getY()])
+					return true;
+				break;
+			default:
+				break;
+		}
+		return false;
+	}
+	
+	public static boolean isFlying(Agent agent, AgentAction action) {
+		boolean[][] list_wall = ViewBombermanGame.getMap_jeu().getStart_brokable_walls();
+		
+		switch (action) {
+			case MOVE_DOWN:
+				if (!list_wall[agent.getX()][agent.getY()+1])
+					return true;
+				break;
+			case MOVE_UP:
+				if (!list_wall[agent.getX()][agent.getY()-1])
+					return true;
+				break;
+			case MOVE_RIGHT:
+				if (!list_wall[agent.getX()+1][agent.getY()])
+					//System.out.println(!list_wall[agent.getX()+1][agent.getY()]);
+					return true;
+				break;
+			case MOVE_LEFT:
+				if (!list_wall[agent.getX()-1][agent.getY()])
 					return true;
 				break;
 			default:

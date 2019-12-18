@@ -50,4 +50,10 @@ public class ControllerSimpleGame implements InterfaceController {
 
 	}
 
+	@Override
+	public void changeMap(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

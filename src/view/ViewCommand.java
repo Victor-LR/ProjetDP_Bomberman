@@ -6,10 +6,12 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,12 +28,15 @@ import game.SimpleGame;
 public class ViewCommand implements Observer{
 
 	private JFrame vueCommand = new JFrame();
+	
+
 	private InterfaceController controller;
 	
 	JButton InitChoice;
 	JButton StepChoice;
 	JButton RunChoice;
 	JButton StopChoice;
+	JComboBox MapChoice;
 	JSlider slider;
 	
 	private JLabel turn = new JLabel();
@@ -111,6 +116,9 @@ public class ViewCommand implements Observer{
 			}
 			});
 		
+
+		
+	//Barre de vitesse
 		slider = new JSlider(1, 10, 1);
 		slider.setMajorTickSpacing(1);
 		slider.setMinorTickSpacing(1);
@@ -138,6 +146,23 @@ public class ViewCommand implements Observer{
 		vueCommand.add(panneauState);
 		vueCommand.setVisible(true);
 		
+	//Liste Map
+		MapChoice=new JComboBox();
+		File repertoire = new File("layouts");
+		File[] files = repertoire.listFiles();
+		for(int i = 0; i< files.length; i++)
+			MapChoice.addItem(files[i].getName());
+		MapChoice.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evenement) {
+				StopChoice.setEnabled(false);
+				StepChoice.setEnabled(true);
+				InitChoice.setEnabled(true);
+				RunChoice.setEnabled(true);
+				controller.changeMap(MapChoice.getSelectedItem().toString());
+			}
+		});
+		panneauCommande.add(MapChoice);
+		
 	}
 
 	@Override
@@ -148,4 +173,7 @@ public class ViewCommand implements Observer{
 		
 	}
 
+	public JFrame getVueCommand() {
+		return vueCommand;
+	}
 }

@@ -7,11 +7,13 @@ import view.ViewCommand;
 public class ControleurBombermanGame implements InterfaceController {
 
 	private BombermanGame Jeu_bomberman;
+	private ViewBombermanGame vue_jeu;
+	ViewCommand vue_commande;
 	
 	public ControleurBombermanGame(BombermanGame Jeu) {
 		
-		ViewCommand vue_commande = new ViewCommand(this,Jeu);
-		ViewBombermanGame vue_jeu = new ViewBombermanGame(this,Jeu,"layouts/niveau2.lay");
+		vue_commande = new ViewCommand(this,Jeu);
+		vue_jeu = new ViewBombermanGame(this,Jeu,"layouts/niveau2.lay");
 		this.Jeu_bomberman = Jeu;
 	}
 
@@ -44,5 +46,16 @@ public class ControleurBombermanGame implements InterfaceController {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	@Override
+	public void changeMap(String name) {
+		stop();
+		vue_jeu.getJframe_bbm().dispose();
+		vue_commande.getVueCommand().dispose();
+		Jeu_bomberman = new BombermanGame();
+		vue_commande = new ViewCommand(this,Jeu_bomberman);
+		vue_jeu = new ViewBombermanGame(this,Jeu_bomberman,"layouts/" + name);
+//		this.Jeu_bomberman.init();
+//		vue_jeu.changeMap("layouts/" + name, Jeu_bomberman);
+	}
 }
