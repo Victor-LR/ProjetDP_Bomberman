@@ -21,7 +21,6 @@ public class Strategie_Joueur1 implements Comportement {
 
 		
 		if (BombermanGame.isLegalMove(agent,key_1.getKaction())) {
-			System.out.println(key_1.getKaction());
 			return key_1.getKaction();
 			
 		}else

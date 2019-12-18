@@ -13,8 +13,8 @@ public class ControleurBombermanGame implements InterfaceController {
 	public ControleurBombermanGame() {
 		
 		this.Jeu_bomberman = new BombermanGame();
-		 vue_commande = new ViewCommand(this,Jeu_bomberman);
-		 vue_jeu = new ViewBombermanGame(this,Jeu_bomberman,"layouts/alone.lay");
+		vue_jeu = new ViewBombermanGame(this,Jeu_bomberman,"layouts/alone.lay");
+		vue_commande = new ViewCommand(this,Jeu_bomberman,vue_jeu.getJframe_bbm());
 		
 	}
 
@@ -52,10 +52,10 @@ public class ControleurBombermanGame implements InterfaceController {
 	public void changeMap(String name) {
 		stop();
 		vue_jeu.getJframe_bbm().dispose();
-		vue_commande.getVueCommand().dispose();
+		//vue_commande.getVueCommand().dispose();
 		Jeu_bomberman = new BombermanGame();
-		vue_commande = new ViewCommand(this,Jeu_bomberman);
 		vue_jeu = new ViewBombermanGame(this,Jeu_bomberman,"layouts/" + name);
+		vue_commande = new ViewCommand(this,Jeu_bomberman,vue_jeu.getJframe_bbm());
 //		this.Jeu_bomberman.init();
 //		vue_jeu.changeMap("layouts/" + name, Jeu_bomberman);
 	}
