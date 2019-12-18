@@ -10,11 +10,12 @@ public class ControleurBombermanGame implements InterfaceController {
 	private ViewBombermanGame vue_jeu;
 	ViewCommand vue_commande;
 	
-	public ControleurBombermanGame(BombermanGame Jeu) {
+	public ControleurBombermanGame() {
 		
-		 vue_commande = new ViewCommand(this,Jeu);
-		 vue_jeu = new ViewBombermanGame(this,Jeu,"layouts/alone.lay");
-		this.Jeu_bomberman = Jeu;
+		this.Jeu_bomberman = new BombermanGame();
+		 vue_commande = new ViewCommand(this,Jeu_bomberman);
+		 vue_jeu = new ViewBombermanGame(this,Jeu_bomberman,"layouts/alone.lay");
+		
 	}
 
 	@Override

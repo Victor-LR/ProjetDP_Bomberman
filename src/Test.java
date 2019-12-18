@@ -23,9 +23,9 @@ public class Test {
 //		ViewSimpleGame vue_jeu = new ViewSimpleGame(JeuSimple);
 		
 
-		BombermanGame JeuBomberman = new BombermanGame();
+		//BombermanGame JeuBomberman = new BombermanGame();
 		//ControleurBombermanGame CBG = new ControleurBombermanGame(JeuBomberman);
-		ControleurBombermanGame CBG = new ControleurBombermanGame(JeuBomberman);
+		ControleurBombermanGame CBG = new ControleurBombermanGame();
 		//JeuBomberman.initializeGame();
 //		ViewBombermanGame vue = new ViewBombermanGame(CBG, JeuBomberman, "layouts/exemple.lay");
 

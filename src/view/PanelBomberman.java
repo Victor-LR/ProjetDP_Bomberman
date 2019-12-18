@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import agents.Agent;
 import agents.AgentAction;
 import agents.InfoAgent;
+import game.BombermanGame;
 import map.Map;
 import objects.InfoBomb;
 import objects.InfoItem;
@@ -65,6 +66,7 @@ public class PanelBomberman extends JPanel{
 		listInfoAgents = map.getStart_agents();	
 		listInfoItems = new ArrayList<InfoItem>();
 		listInfoBombs = new ArrayList<InfoBomb>();
+	
 		
 	}
 
@@ -354,7 +356,7 @@ public class PanelBomberman extends JPanel{
 			int range = bomb.getRange();
 			
 			
-			range = bomb.getRange_wall_at(1)+1;
+			range = bomb.getRange_wall_at(1);
 			System.out.println("                 SOUTH RANGE"+range);
 			for (int i = 1 ; i <= range; i++){
 				
@@ -378,8 +380,8 @@ public class PanelBomberman extends JPanel{
 				}
 			
 			}
-			
-			range = bomb.getRange_wall_at(3)+1;
+		
+			range = bomb.getRange_wall_at(3);
 			System.out.println("                 NORTH RANGE"+range);
 			for (int i = 1 ; i <= range; i++){
 				
@@ -404,7 +406,7 @@ public class PanelBomberman extends JPanel{
 				
 			}
 
-			range = bomb.getRange_wall_at(0)+1;
+			range = bomb.getRange_wall_at(0);
 			System.out.println("                 EAST RANGE"+range);
 			for (int i = 1 ; i <= range; i++){
 				
@@ -427,7 +429,7 @@ public class PanelBomberman extends JPanel{
 				}
 			}
 			//range = bomb.getRange();
-			range = bomb.getRange_wall_at(2)+1;
+			range = bomb.getRange_wall_at(2);
 			System.out.println("                 WEST RANGE"+range);
 			for (int i = 1 ; i <= range; i++){
 					
@@ -457,8 +459,6 @@ public class PanelBomberman extends JPanel{
 
 	}
 
-
-	//A changer
 
 	public void setInfoGame(boolean[][] breakable_walls, ArrayList<Agent> listInfoAgents ,ArrayList<InfoItem> listInfoItems, ArrayList<InfoBomb> listInfoBombs) {
 		

@@ -99,6 +99,7 @@ public class ViewCommand implements Observer{
 				StepChoice.setEnabled(false);
 				InitChoice.setEnabled(false);
 				RunChoice.setEnabled(false);
+				
 			}
 			});
 	//Bouton Pause

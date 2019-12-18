@@ -12,6 +12,7 @@ import controleur.InterfaceController;
 import game.BombermanGame;
 import game.Observable;
 import map.Map;
+import strategie.Strategie_Joueur1;
 
 public class ViewBombermanGame implements Observer {
 	
@@ -37,6 +38,8 @@ public class ViewBombermanGame implements Observer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		Plateau_jeu.addKeyListener(Jeu.getKey_1());
 		
 		jframe_bbm.setTitle("Game");
 		jframe_bbm.setSize(new Dimension(map_jeu.getSizeX()*50, (map_jeu.getSizeY()*50)));
@@ -65,6 +68,7 @@ public class ViewBombermanGame implements Observer {
 		//System.out.println(jeu_bbm.getAgentList().get(0).getType());
 		this.Plateau_jeu.setInfoGame(jeu_bbm.getList_wall(), jeu_bbm.getAgentList(),jeu_bbm.getList_item(), jeu_bbm.getBombes());
 		this.Plateau_jeu.repaint();
+		this.Plateau_jeu.requestFocusInWindow();
 		//this.turn.setText("Tour n° :"+ simple_jeu.getTurn());
 	}
 	
