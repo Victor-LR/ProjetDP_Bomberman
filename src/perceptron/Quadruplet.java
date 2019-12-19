@@ -1,6 +1,6 @@
 package perceptron;
 
-import graphics.AgentAction;
+import agents.AgentAction;
 
 public class Quadruplet {
 

@@ -2,6 +2,7 @@ package controleur;
 
 import game.Game;
 import game.SimpleGame;
+import map.Map;
 import view.ViewCommand;
 import view.ViewSimpleGame;
 
@@ -52,6 +53,12 @@ public class ControllerSimpleGame implements InterfaceController {
 
 	@Override
 	public void changeMap(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setMap(Map map) {
 		// TODO Auto-generated method stub
 		
 	}
