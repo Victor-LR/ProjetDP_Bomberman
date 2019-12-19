@@ -25,7 +25,7 @@ public class Test {
 
 		//BombermanGame JeuBomberman = new BombermanGame();
 		//ControleurBombermanGame CBG = new ControleurBombermanGame(JeuBomberman);
-		ControleurBombermanGame CBG = new ControleurBombermanGame();
+		ControleurBombermanGame CBG = new ControleurBombermanGame(false);
 		//JeuBomberman.initializeGame();
 //		ViewBombermanGame vue = new ViewBombermanGame(CBG, JeuBomberman, "layouts/exemple.lay");
 

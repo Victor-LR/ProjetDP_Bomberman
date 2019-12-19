@@ -16,7 +16,7 @@ public abstract class Game implements Runnable, Observable {
 	private long time = 1000;
 	
 	public Game() {
-		this.maxTurn = 500;
+		this.maxTurn = 100;
 	}
 
 	//Initialisation du Jeu
@@ -66,6 +66,10 @@ public abstract class Game implements Runnable, Observable {
 		thread.start();
 	}
 	
+	public Thread getThread() {
+		return thread;
+	}
+
 	//Getters et Setters
 	public long getTime() {
 		return time;

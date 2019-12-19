@@ -32,10 +32,11 @@ public class ViewBombermanGame implements Observer {
 		jframe_bbm = new JFrame();
 		try {
 			map_jeu = new Map(filename);
+			control.setMap(map_jeu);
 			this.Plateau_jeu = new PanelBomberman(map_jeu);
 			ListStartAgent = map_jeu.getStart_agents();
 			list_breakable_walls = map_jeu.getStart_brokable_walls();
-			Jeu.setListAgentsStart(ListStartAgent);
+			//Jeu.setListAgentsStart(ListStartAgent);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
