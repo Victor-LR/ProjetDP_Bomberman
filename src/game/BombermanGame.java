@@ -1,6 +1,5 @@
 package game;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import agents.Agent;
@@ -12,7 +11,6 @@ import key.Keys;
 import key.Keys_2;
 import objects.InfoBomb;
 import objects.InfoItem;
-import objects.ItemType;
 import objects.StateBomb;
 import view.ViewBombermanGame;
 
@@ -110,7 +108,6 @@ public class BombermanGame extends Game implements Observable {
 	//Action effectué pour chaque agent
 	public void takeTurn() {
 		System.out.println("Tour "+this.turn+" en cours");
-		
 		for(int i = 0; i < agentList.size(); i++) {
 			
 			Agent agent = agentList.get(i);
@@ -124,7 +121,7 @@ public class BombermanGame extends Game implements Observable {
 				itemBoost(agent.getX(), agent.getY(), (Agent_Bomberman)agent);
 				if (AgentAction.PUT_BOMB == action && !agent.isSick())
 				{
-					placeBomb((Agent_Bomberman)agent);
+					placeBomb((Agent_Bomberman)agent, i);
 				}
 				invTurn((Agent_Bomberman)agent);
 				sicTurn((Agent_Bomberman)agent);
@@ -229,9 +226,9 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == i && agent.getY() == y && agent.getType()!='B'){
+				if(agent.getX() == i && agent.getY() == y && bomb.getId()!=j){
 					agents.remove(j);
-				}
+				}				
 			}
 				
 			for(int j = 0; j<bombes.size(); j++){
@@ -246,7 +243,7 @@ public class BombermanGame extends Game implements Observable {
 			if(i < list_wall.length)
 				if(list_wall[i][y]) {
 					list_wall[i][y]=false;
-					creerItem(i,y);
+//					creerItem(i,y);
 					break;
 				}
 		}
@@ -257,7 +254,7 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == x && agent.getY() == i && agent.getType()!='B'){
+				if(agent.getX() == x && agent.getY() == i && bomb.getId()!=j){
 					agents.remove(j);
 				}
 			}
@@ -273,7 +270,7 @@ public class BombermanGame extends Game implements Observable {
 			if(i < list_wall[x].length)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
-					creerItem(x,i);
+//					creerItem(x,i);
 					break;
 				}
 		}
@@ -284,7 +281,7 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == i && agent.getY() == y && agent.getType()!='B'){
+				if(agent.getX() == i && agent.getY() == y && bomb.getId()!=j){
 					agents.remove(j);
 				}
 			}
@@ -300,7 +297,7 @@ public class BombermanGame extends Game implements Observable {
 			if(i > 0)
 				if(list_wall[i][y]){
 					list_wall[i][y]=false;
-					creerItem(i,y);
+//					creerItem(i,y);
 					break;
 				}
 	
@@ -312,24 +309,24 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == x && agent.getY() == i && agent.getType()!='B'){
+				if(agent.getX() == x && agent.getY() == i && bomb.getId()!=j){
 					agents.remove(j);
-					}
 				}
+			}
 				
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
 				if(bombe.getX() == x & bombe.getY() == i){
 					bombe.setStateBomb(StateBomb.Boom);
-					}
+				}
 				bombe.setRange_wall_at(3, y-i);
 			}
 			
 			if(i > 0)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
-					creerItem(x,i);
+//					creerItem(x,i);
 					break;
 				}
 		}
@@ -366,26 +363,26 @@ public class BombermanGame extends Game implements Observable {
 	}
 	
 	//place une bombe à la position du bomberman
-	public void placeBomb(Agent_Bomberman bomberman)
+	public void placeBomb(Agent_Bomberman bomberman, int ind)
 	{
 		int x = bomberman.getX();
 		int y = bomberman.getY();
 		if(this.bombes.size()>=0) {
-		InfoBomb bomb = new InfoBomb(x,y,bomberman.getRange(),StateBomb.Step1);
+		InfoBomb bomb = new InfoBomb(x,y,bomberman.getRange(),StateBomb.Step1, ind);
 		bombes.add(bomb);
 		}
 	}
 	
 	
 	//Créer un item à l'endroit du mur brisé
-	public void creerItem(int x, int y) {
-		ItemType[] listitem = ItemType.values();
-		int drop_random = (int) (Math.random()*100);
-		if(drop_random < 40) {
-			int item_random = (int) (Math.random()*listitem.length);
-			list_item.add(new InfoItem(x,y,listitem[item_random]));
-		}
-	}
+//	public void creerItem(int x, int y) {
+//		ItemType[] listitem = ItemType.values();
+//		int drop_random = (int) (Math.random()*100);
+//		if(drop_random < 40) {
+//			int item_random = (int) (Math.random()*listitem.length);
+//			list_item.add(new InfoItem(x,y,listitem[item_random]));
+//		}
+//	}
 	
 	//Améliore le bomberman en fonction de l'item ramassé
 	//Le bomberman pourra toujours avoir une bombe et/ou une range de 1 malgré les malus
@@ -532,4 +529,5 @@ public class BombermanGame extends Game implements Observable {
 	public void setNom_strats(ArrayList<String> nom_strats) {
 		this.nom_strats = nom_strats;
 	}
+	
 }
