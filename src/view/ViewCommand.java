@@ -178,6 +178,10 @@ public class ViewCommand implements Observer{
 		
 	}
 
+	public JComboBox getMapChoice() {
+		return MapChoice;
+	}
+
 	@Override
 	public void update(Observable obs) {
 		// TODO Auto-generated method stub
