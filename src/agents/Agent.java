@@ -19,6 +19,9 @@ public class Agent {
 	
 	private Comportement strategie;
 	
+	private int id;
+	static int inc=0;
+	
 	public Agent(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible, boolean isSick,Comportement strat) {
 		this.x=x;
 		this.y=y;
@@ -30,6 +33,11 @@ public class Agent {
 		this.isSick = isSick;
 		
 		this.strategie = strat;
+		
+		this.id=inc;
+		inc++;
+
+		
 	}
 
 	
@@ -108,4 +116,7 @@ public class Agent {
 //			return AgentAction.STOP;
 	}
 
+	public int getId() {
+		return id;
+	}
 }

@@ -6,10 +6,12 @@ public class Agent_Bomberman extends Agent{
 
 	private int range;
 	private int nbBombes;
+	private int points;
 	
 	//Enregistre le tour où le bomberman est devenu inv/sick pour le remettre en état normal au n-ieme tour
 	private int tourInv;
 	private int tourSic;
+
 	
 	public Agent_Bomberman(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible,
 			boolean isSick,Comportement strat) {
@@ -18,6 +20,7 @@ public class Agent_Bomberman extends Agent{
 		this.nbBombes = 1;
 		this.tourInv = 0;
 		this.tourSic = 0;
+		this.points = 0;
 	}
 
 	public int getTourInv() {
@@ -50,6 +53,14 @@ public class Agent_Bomberman extends Agent{
 
 	public void setTourSic(int tourSic) {
 		this.tourSic = tourSic;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
 	}
 
 
