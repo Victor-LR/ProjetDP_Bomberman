@@ -1,6 +1,5 @@
 package game;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import agents.Agent;
@@ -13,7 +12,6 @@ import key.Keys;
 import key.Keys_2;
 import objects.InfoBomb;
 import objects.InfoItem;
-import objects.ItemType;
 import objects.StateBomb;
 
 public class BombermanGame extends Game implements Observable {
@@ -124,10 +122,11 @@ public class BombermanGame extends Game implements Observable {
 				itemBoost(agent.getX(), agent.getY(), (Agent_Bomberman)agent);
 				if (AgentAction.PUT_BOMB == action && !agent.isSick())
 				{
-					placeBomb((Agent_Bomberman)agent);
+					placeBomb((Agent_Bomberman)agent, i);
 				}
 				invTurn((Agent_Bomberman)agent);
 				sicTurn((Agent_Bomberman)agent);
+				System.out.println("Points bomb" + i+" " +bombPoints((Agent_Bomberman) agent));
 			}
 			else
 			{
@@ -135,6 +134,11 @@ public class BombermanGame extends Game implements Observable {
 			}
 		}
 		bombeTurn();
+	}
+
+	private int bombPoints(Agent_Bomberman agent) {
+		// TODO Auto-generated method stub
+		return agent.getPoints();
 	}
 
 	@Override
@@ -220,8 +224,9 @@ public class BombermanGame extends Game implements Observable {
 	{
 		int x = bomb.getX();
 		int y = bomb.getY();
-		
+
 		ArrayList<Agent> agents = this.agentList;
+		ArrayList<Integer> nbPoints = new ArrayList<Integer>(); 
 		
 		// TEST RANGE EAST
 		
@@ -229,7 +234,8 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == i && agent.getY() == y && agent.getType()!='B'){
+				if(agent.getX() == i && agent.getY() == y && bomb.getId()!=agent.getId()){
+					nbPoints.add(addPoints(agents.get(j)));
 					agents.remove(j);
 				}
 			}
@@ -246,7 +252,8 @@ public class BombermanGame extends Game implements Observable {
 			if(i < list_wall.length)
 				if(list_wall[i][y]) {
 					list_wall[i][y]=false;
-					creerItem(i,y);
+					nbPoints.add(10);
+//					creerItem(i,y);
 					break;
 				}
 		}
@@ -257,7 +264,8 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == x && agent.getY() == i && agent.getType()!='B'){
+				if(agent.getX() == x && agent.getY() == i && bomb.getId()!=agent.getId()){
+					nbPoints.add(addPoints(agents.get(j)));
 					agents.remove(j);
 				}
 			}
@@ -273,7 +281,8 @@ public class BombermanGame extends Game implements Observable {
 			if(i < list_wall[x].length)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
-					creerItem(x,i);
+					nbPoints.add(10);
+//					creerItem(x,i);
 					break;
 				}
 		}
@@ -284,7 +293,8 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == i && agent.getY() == y && agent.getType()!='B'){
+				if(agent.getX() == i && agent.getY() == y && bomb.getId()!=agent.getId()){
+					nbPoints.add(addPoints(agents.get(j)));
 					agents.remove(j);
 				}
 			}
@@ -300,7 +310,8 @@ public class BombermanGame extends Game implements Observable {
 			if(i > 0)
 				if(list_wall[i][y]){
 					list_wall[i][y]=false;
-					creerItem(i,y);
+					nbPoints.add(10);
+//					creerItem(i,y);
 					break;
 				}
 	
@@ -312,28 +323,36 @@ public class BombermanGame extends Game implements Observable {
 			
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
-				if(agent.getX() == x && agent.getY() == i && agent.getType()!='B'){
+				if(agent.getX() == x && agent.getY() == i && bomb.getId()!=agent.getId()){
+					nbPoints.add(addPoints(agents.get(j)));
 					agents.remove(j);
-					}
 				}
+			}
 				
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
 				if(bombe.getX() == x & bombe.getY() == i){
 					bombe.setStateBomb(StateBomb.Boom);
-					}
+				}
 				bombe.setRange_wall_at(3, y-i);
 			}
 			
 			if(i > 0)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
-					creerItem(x,i);
+					nbPoints.add(10);
+//					creerItem(x,i);
 					break;
 				}
 		}
 
+		//Ajout des points au bomberman correspondant
+		for(int i = 0;i<agents.size(); i++) {
+			if(agents.get(i).getType()=='B' && bomb.getId()==agents.get(i).getId()) {
+				calculPt((Agent_Bomberman)agents.get(i), nbPoints);
+			}
+		}
 		
 	}
 	
@@ -360,24 +379,26 @@ public class BombermanGame extends Game implements Observable {
 				case Boom:
 					
 					bombes.remove(bombe);
+					
 					break;
 				}
 		}
 	}
 	
 	//place une bombe à la position du bomberman
-	public void placeBomb(Agent_Bomberman bomberman)
+	public void placeBomb(Agent_Bomberman bomberman, int ind)
 	{
 		int x = bomberman.getX();
 		int y = bomberman.getY();
 		if(this.bombes.size()>=0) {
-		InfoBomb bomb = new InfoBomb(x,y,bomberman.getRange(),StateBomb.Step1);
+		InfoBomb bomb = new InfoBomb(x,y,bomberman.getRange(),StateBomb.Step1, bomberman.getId());
 		bombes.add(bomb);
 		}
 	}
 	
 	
 	//Créer un item à l'endroit du mur brisé
+
 	public void creerItem(int x, int y) {
 		/*ItemType[] listitem = ItemType.values();
 		int drop_random = (int) (Math.random()*100);
@@ -386,6 +407,7 @@ public class BombermanGame extends Game implements Observable {
 			list_item.add(new InfoItem(x,y,listitem[item_random]));
 		}*/
 	}
+
 	
 	//Améliore le bomberman en fonction de l'item ramassé
 	//Le bomberman pourra toujours avoir une bombe et/ou une range de 1 malgré les malus
@@ -468,6 +490,7 @@ public class BombermanGame extends Game implements Observable {
 	
 	public static boolean isFlying(Agent agent, AgentAction action) {
 		boolean[][] list_wall = ControleurBombermanGame.getMap().getStart_brokable_walls();
+
 		
 		switch (action) {
 			case MOVE_DOWN:
@@ -564,7 +587,38 @@ public class BombermanGame extends Game implements Observable {
 		this.nom_strats = nom_strats;
 	}
 
-
-
-
+	
+	public int addPoints(Agent ennemy) {
+		int points=0;
+		switch(ennemy.getType()) {
+		case 'B':
+			points = 50;
+			break;
+		
+		case 'E':
+			points = 50;
+			break;
+			
+		case 'R':
+			points = 50;
+			break;
+			
+		case 'V':
+			points = 50;
+			break;
+			
+		default:
+			break;
+		}
+		return points;
+	}
+	
+	public void calculPt(Agent_Bomberman agent, ArrayList<Integer> nbPoint) {
+		int sum=agent.getPoints();
+		for(int i:nbPoint)
+		{
+			sum+=i;
+		}
+		agent.setPoints(sum);
+	}
 }
