@@ -34,7 +34,7 @@ public class PanelStrategie extends JPanel {
 			
 			for(int j = 0; j< files.length; j++) {
 				String nom_strat = files[j].getName();
-				System.out.println(nom_strat);
+
 				if (nom_strat != "Comportement.java")
 					list_strat.addItem(nom_strat.substring(10));
 			}
@@ -46,7 +46,7 @@ public class PanelStrategie extends JPanel {
 			list_strat.addActionListener(new ActionListener(){
 				
 				public void actionPerformed(ActionEvent evenement) {
-					System.out.println(List_CBox.indexOf(list_strat));
+
 					Strats.set(List_CBox.indexOf(list_strat),list_strat.getSelectedItem().toString());
 				}
 			});

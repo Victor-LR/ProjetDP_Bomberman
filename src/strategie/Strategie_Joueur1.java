@@ -27,4 +27,10 @@ public class Strategie_Joueur1 implements Comportement {
 
 	}
 
+	@Override
+	public AgentAction doActionPerceptron(Agent agent, ArrayList<Agent> agents, BombermanGame BBMG) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

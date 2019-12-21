@@ -18,7 +18,6 @@ public class ControleurBombermanGame implements InterfaceController {
 		this.Jeu_bomberman = new BombermanGame();
 
 		if (perceptron) {
-			//vue_jeu.getJframe_bbm().setVisible(false);
 			Jeu_bomberman.setTime(1);
 		}else {
 			vue_jeu = new ViewBombermanGame(this,Jeu_bomberman,"layouts/niveau1.lay");
@@ -63,7 +62,6 @@ public class ControleurBombermanGame implements InterfaceController {
 	public void changeMap(String name) {
 		stop();
 		vue_jeu.getJframe_bbm().dispose();
-		//vue_commande.getVueCommand().dispose();
 		Jeu_bomberman = new BombermanGame();
 		vue_jeu = new ViewBombermanGame(this,Jeu_bomberman,"layouts/" + name);
 		vue_commande = new ViewCommand(this,Jeu_bomberman,vue_jeu.getJframe_bbm());

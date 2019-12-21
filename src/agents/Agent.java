@@ -108,13 +108,14 @@ public class Agent {
 	
 
 
-	public AgentAction doAction(ArrayList<Agent> agents) {
-		// TODO Auto-generated method stub
-		return this.strategie.doAction(this, agents);
-//		if (BombermanGame.isLegalMove(this, action))
-//			return action;
-//		else
-//			return AgentAction.STOP;
+	public AgentAction doAction(ArrayList<Agent> agents, BombermanGame BBMG) {
+		
+		if(strategie.getClass().getName() == "perceptron.Strategie_Perceptron")
+			return this.strategie.doActionPerceptron(this, agents, BBMG);
+		else {
+			return this.strategie.doAction(this, agents);
+		}
+
 	}
 
 	public int getId() {

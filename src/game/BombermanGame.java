@@ -6,6 +6,7 @@ import agents.Agent;
 import agents.AgentAction;
 import agents.Agent_Bomberman;
 import controleur.ControleurBombermanGame;
+import factory.AgentFactory;
 import factory.BombermanFactory;
 import factory.EnnemyFactory;
 import key.Keys;
@@ -20,6 +21,9 @@ import pattern_etats.BombermanNormal;
 
 public class BombermanGame extends Game implements Observable {
 
+	int tailleX;
+	int tailleY;
+	
     private ArrayList<Agent> agentList;
     private ArrayList<Agent> ListAgentsStart;
     private ArrayList<InfoBomb> bombes;
@@ -27,9 +31,8 @@ public class BombermanGame extends Game implements Observable {
     private ArrayList<InfoItem> list_item;
     private ArrayList<BombermanAgress> list_etat;
 
-
-    private EnnemyFactory ennemyFactory;
-    private BombermanFactory bombermanFactory;
+    private AgentFactory ennemyFactory;
+    private AgentFactory bombermanFactory;
     
     private static Keys key_1;
     private static Keys_2 key_2;
@@ -93,13 +96,13 @@ public class BombermanGame extends Game implements Observable {
 				ind_bbm++;
 			}
 			else {
-				System.out.println("Enn");
+				//System.out.println("Enn");
 				agentList.add(ennemyFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), agent.getType(), agent.getColor(), agent.isInvincible(), agent.isSick(),null));
 			}
 		}
 		
-		int tailleX = ControleurBombermanGame.getMap().getStart_brokable_walls().length;
-		int tailleY = ControleurBombermanGame.getMap().getStart_brokable_walls()[0].length;
+		this.tailleX = ControleurBombermanGame.getMap().getStart_brokable_walls().length;
+		this.tailleY = ControleurBombermanGame.getMap().getStart_brokable_walls()[0].length;
 		list_wall = new boolean[tailleX][tailleY];
 		
 		for(int i = 0 ; i < tailleX ; i++) {
@@ -116,9 +119,8 @@ public class BombermanGame extends Game implements Observable {
 	}
 	
 	@Override
-	//Action effectué pour chaque agent
+	//Actions effectuées par les agents tout les tours
 	public void takeTurn() {
-		//System.out.println("Tour "+this.turn+" en cours");
 		
 		for(int i = 0; i < agentList.size(); i++) {
 			
@@ -166,8 +168,7 @@ public class BombermanGame extends Game implements Observable {
 
 	@Override
 	public void gameOver() {
-		// TODO Auto-generated method stub
-		//System.out.println("Fin du jeu " + this.turn);
+		System.out.println("Fin du jeu au tour : " + this.turn);
 	}
 	
 	public ArrayList<Agent> getAgentList() {
@@ -184,42 +185,22 @@ public class BombermanGame extends Game implements Observable {
 		//MOVE_UP,MOVE_DOWN,MOVE_LEFT,MOVE_RIGHT,STOP,PUT_BOMB
 		case MOVE_UP:
 			agent.setAgentAction(action);
-//			if(agent.doAction(agentList, action)!=AgentAction.STOP)
-//			{
 				agent.setY(y-1);
-//			}
-//			else
-//				agent.setAgentAction(AgentAction.STOP);
 			break;
 			
 		case MOVE_DOWN:
 			agent.setAgentAction(action);
-//			if(agent.doAction(agentList, action)!=AgentAction.STOP)
-//			{
 				agent.setY(y+1);
-//			}
-//			else
-				agent.setAgentAction(AgentAction.STOP);
 			break;
 
 		case MOVE_LEFT:
 			agent.setAgentAction(action);
-//			if(agent.doAction(agentList, action)!=AgentAction.STOP)
-//			{
 				agent.setX(x-1);
-//			}
-//			else
-//				agent.setAgentAction(AgentAction.STOP);
 			break;
 			
 		case MOVE_RIGHT:
 			agent.setAgentAction(action);
-//			if(agent.doAction(agentList, action)!=AgentAction.STOP)
-//			{
 				agent.setX(x+1);
-//			}
-//			else
-//				agent.setAgentAction(AgentAction.STOP);
 			break;
 			
 		case STOP:
@@ -229,18 +210,6 @@ public class BombermanGame extends Game implements Observable {
 			break;
 		}
 	}
-	/*
-	if (direction == Map.EAST) {
-		for(int i = 0; i<=bomb.getRange(); i++){
-			if(x+i<map.getSizeX()){
-				if(this.isBrokable_Wall(x+i, y) || map.isWall(x+i, y)){
-					taille_range = x+i;
-					break;
-				}
-				else taille_range = x+i;
-			}
-		}
-	}*/
 	
 	//Réalise l'explosion d'une bombe et ses conséquences
 	public void bombExplode(InfoBomb bomb)
@@ -254,7 +223,7 @@ public class BombermanGame extends Game implements Observable {
 		// TEST RANGE EAST
 		
 		for(int i = x; i<= x + bomb.getRange(); i++){
-			
+			// Vérifie si il y a un agent et le détruit
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
 				if(agent.getX() == i && agent.getY() == y && bomb.getId()!=agent.getId()){
@@ -262,16 +231,19 @@ public class BombermanGame extends Game implements Observable {
 					agents.remove(j);
 				}
 			}
-				
+			
+			// Vérifie si il y a une bombe et la détruit
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
 				if(bombe.getX() == i & bombe.getY() == y){
+					bombExplode(bombe);
 					bombe.setStateBomb(StateBomb.Boom);
 					}
 				bombe.setRange_wall_at(0, i-x);
 			}
 			
+			//Vérifie si il y a un mur et le détruit
 			if(i < list_wall.length)
 				if(list_wall[i][y]) {
 					list_wall[i][y]=false;
@@ -286,6 +258,7 @@ public class BombermanGame extends Game implements Observable {
 		
 		for(int i = y; i <= y +bomb.getRange(); i++){
 			
+			// Vérifie si il y a un agent et le détruit
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
 				if(agent.getX() == x && agent.getY() == i && bomb.getId()!=agent.getId()){
@@ -293,7 +266,8 @@ public class BombermanGame extends Game implements Observable {
 					agents.remove(j);
 				}
 			}
-				
+			
+			// Vérifie si il y a une bombe et la détruit
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
@@ -302,6 +276,7 @@ public class BombermanGame extends Game implements Observable {
 					}
 				bombe.setRange_wall_at(1, i-y);
 			}
+			//Vérifie si il y a un mur et le détruit
 			if(i < list_wall[x].length)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
@@ -316,6 +291,7 @@ public class BombermanGame extends Game implements Observable {
 		
 		for(int i = x; i >= x-bomb.getRange(); i--){
 			
+			// Vérifie si il y a un agent et le détruit
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
 				if(agent.getX() == i && agent.getY() == y && bomb.getId()!=agent.getId()){
@@ -323,7 +299,8 @@ public class BombermanGame extends Game implements Observable {
 					agents.remove(j);
 				}
 			}
-				
+			
+			// Vérifie si il y a une bombe et la détruit
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
@@ -332,6 +309,7 @@ public class BombermanGame extends Game implements Observable {
 					}
 				bombe.setRange_wall_at(2, x-i);
 			}
+			//Vérifie si il y a un mur et le détruit
 			if(i > 0)
 				if(list_wall[i][y]){
 					list_wall[i][y]=false;
@@ -347,6 +325,7 @@ public class BombermanGame extends Game implements Observable {
 		// TEST RANGE NORTH
 		for(int i = y; i >= y-bomb.getRange(); i--){
 			
+			// Vérifie si il y a un agent et le détruit
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
 				if(agent.getX() == x && agent.getY() == i && bomb.getId()!=agent.getId()){
@@ -354,7 +333,8 @@ public class BombermanGame extends Game implements Observable {
 					agents.remove(j);
 				}
 			}
-				
+			
+			// Vérifie si il y a une bombe et la détruit
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
@@ -363,7 +343,7 @@ public class BombermanGame extends Game implements Observable {
 				}
 				bombe.setRange_wall_at(3, y-i);
 			}
-			
+			//Vérifie si il y a un mur et le détruit
 			if(i > 0)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
@@ -487,6 +467,7 @@ public class BombermanGame extends Game implements Observable {
 		}
 	}
 	
+	//Vérifie si le mouvement respecte les règles du jeu
 	public static boolean isLegalMove(Agent agent, AgentAction action) {
 		boolean[][] liste_unbreakable_wall = ControleurBombermanGame.getMap().get_walls();
 		
@@ -501,7 +482,6 @@ public class BombermanGame extends Game implements Observable {
 				break;
 			case MOVE_RIGHT:
 				if (!liste_unbreakable_wall[agent.getX()+1][agent.getY()] && !list_wall[agent.getX()+1][agent.getY()])
-					//System.out.println(!list_wall[agent.getX()+1][agent.getY()]);
 					return true;
 				break;
 			case MOVE_LEFT:
@@ -516,8 +496,9 @@ public class BombermanGame extends Game implements Observable {
 		return false;
 	}
 	
+	//Comme isLegalMove mais adapté pour l'agent Bird
 	public static boolean isFlying(Agent agent, AgentAction action) {
-		boolean[][] list_wall = ControleurBombermanGame.getMap().getStart_brokable_walls();
+		boolean[][] list_wall = ControleurBombermanGame.getMap().get_walls();
 
 		
 		switch (action) {
@@ -531,7 +512,6 @@ public class BombermanGame extends Game implements Observable {
 				break;
 			case MOVE_RIGHT:
 				if (!list_wall[agent.getX()+1][agent.getY()])
-					//System.out.println(!list_wall[agent.getX()+1][agent.getY()]);
 					return true;
 				break;
 			case MOVE_LEFT:
@@ -579,15 +559,19 @@ public class BombermanGame extends Game implements Observable {
 	// Test si il y a un mur à une position précise
 	public boolean IsMur(int x, int y) {
 		
-//		for(int i = 0 ; i < this.getList_wall().length ; i++) {
-//			for(int j = 0 ; j< this.getList_wall()[i].length ; j++) {
-//				if(this.getList_wall()[i][j])
-//					return true;
-//			}
-//		}
-		return this.getList_wall()[x][y];
+		if (x < 0 || y < 0 || x > this.tailleX || y > this.tailleY)
+			return false;
+		else {
+			try {
+				return this.getList_wall()[x][y];
+			} catch (Exception e) {
+				return false;
+			}
+		}
+			
 	}
 	
+	//Liste des getteurs et setteurs
 	public ArrayList<InfoBomb> getBombes() {
 		return bombes;
 	}
@@ -616,7 +600,7 @@ public class BombermanGame extends Game implements Observable {
 		this.nom_strats = nom_strats;
 	}
 
-	
+	//Ajoute les points en fonction de l'ennemi tué
 	public int addPoints(Agent ennemy) {
 		int points=0;
 		switch(ennemy.getType()) {
@@ -641,7 +625,7 @@ public class BombermanGame extends Game implements Observable {
 		}
 		return points;
 	}
-	
+	 
 	public void calculPt(Agent_Bomberman agent, ArrayList<Integer> nbPoint) {
 		int sum=agent.getPoints();
 		for(int i:nbPoint)

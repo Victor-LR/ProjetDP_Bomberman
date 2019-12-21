@@ -25,4 +25,10 @@ public static Keys_2 key_2 ;
 			return AgentAction.STOP;
 
 	}
+
+	@Override
+	public AgentAction doActionPerceptron(Agent agent, ArrayList<Agent> agents, BombermanGame BBMG) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

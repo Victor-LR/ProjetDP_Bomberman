@@ -18,7 +18,7 @@ public class Reward {
 		int scoreFinal=0 ;
 		
 		ArrayList<ControleurBombermanGame> List_Control = new ArrayList<ControleurBombermanGame>();
-		//ArrayList<Integer> Scores_Jeu = new ArrayList<Integer>();
+
 		
 		for (int i = 0 ; i < nb_simulations ; i++){
 			ControleurBombermanGame Control_Percep = new ControleurBombermanGame(true);
@@ -29,12 +29,17 @@ public class Reward {
 			nom_strats.add("Aléatoire");
 			Control_Percep.getJeu_bomberman().setNom_strats(nom_strats);
 			
+			Control_Percep.getJeu_bomberman().init();
+			Control_Percep.getJeu_bomberman().setMaxTurn(max_turn);
 			for (Agent a : Control_Percep.getJeu_bomberman().getAgentList()) {
-				if(a.getType() == 'B')
+				if(a.getType() == 'B') {
 					a.setStrategie(strategie);
+					((Agent_Bomberman)a).setVies(1);
+				}
+					
 			}
 			
-			Control_Percep.run();
+			Control_Percep.start();
 			
 			
 			List_Control.add(Control_Percep);
@@ -57,7 +62,7 @@ public class Reward {
 			
 		}
 		SparseVector etat = getEtat(List_Control.get(0).getJeu_bomberman(),List_Control.get(0).getJeu_bomberman().getAgentList().get(0));
-		System.out.println(getEtatAction(etat,AgentAction.PUT_BOMB).toString());
+		//System.out.println(getEtatAction(etat,AgentAction.PUT_BOMB).toString());
 		System.out.println("Moyenne des scores :"+scoreFinal/nb_simulations);
 	}
 	
@@ -66,18 +71,23 @@ public class Reward {
 		
 		ControleurBombermanGame Control_Percep = new ControleurBombermanGame(false);
 		Control_Percep.setMap(map);
-		Control_Percep.getJeu_bomberman().setTime(time_wait);
+		
 		Control_Percep.getJeu_bomberman().setListAgentsStart(Control_Percep.getMap().getStart_agents());
 		ArrayList<String> nom_strats = new ArrayList();
 		nom_strats.add("Aléatoire");
 		Control_Percep.getJeu_bomberman().setNom_strats(nom_strats);
 		
+		Control_Percep.getJeu_bomberman().init();
+		Control_Percep.getJeu_bomberman().setTime(time_wait);
+		Control_Percep.getJeu_bomberman().setMaxTurn(max_turn);
 		for (Agent a : Control_Percep.getJeu_bomberman().getAgentList()) {
-			if(a.getType() == 'B')
+			if(a.getType() == 'B') {
 				a.setStrategie(strategie);
+				((Agent_Bomberman)a).setVies(1);
+			}
 		}
-		
-		Control_Percep.run();
+		Control_Percep.setPerceptron(true);
+		Control_Percep.start();
 	}
 	
 	public SparseVector getEtat(BombermanGame Jeu_bbm , Agent agent)
@@ -110,7 +120,7 @@ public class Reward {
 					if(Jeu_bbm.IsBombe(point_depart_x + j, point_depart_y + i))
 						vec1.setValue(25+(i*5)+j, 1);
 					
-					if(Jeu_bbm.IsMur(j, i))
+					if(Jeu_bbm.IsMur(point_depart_x + j, point_depart_y + i))
 						vec1.setValue(50+(i*5)+j, 1);
 					
 				}
@@ -120,7 +130,7 @@ public class Reward {
 		
 		//}
 		
-		System.out.println(vec1.toString());
+		//System.out.println(vec1.toString());
 		return(vec1);
 	}
 	

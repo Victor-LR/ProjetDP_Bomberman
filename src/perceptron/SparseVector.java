@@ -20,10 +20,10 @@ import java.util.Iterator;
 			StringBuffer sb=new StringBuffer();
 			for(int f:this)
 			{
-				sb.append(f);
-				sb.append(":");
+				//sb.append(f);
+				//sb.append(":");
 				sb.append(getValue(f));
-				sb.append(" ");
+				sb.append(",");
 			}
 			return(sb.toString());
 		}

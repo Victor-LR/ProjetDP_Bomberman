@@ -81,6 +81,14 @@ public abstract class Game implements Runnable, Observable {
 	
 	//Méthodes interface Observable
 	
+	public int getMaxTurn() {
+		return maxTurn;
+	}
+
+	public void setMaxTurn(int maxTurn) {
+		this.maxTurn = maxTurn;
+	}
+
 	@Override
 	public void registerObserver(Observer observer) {
 		this.List_observers.add(observer);
