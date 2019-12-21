@@ -18,7 +18,7 @@ public class Reward {
 		int scoreFinal=0 ;
 		
 		ArrayList<ControleurBombermanGame> List_Control = new ArrayList<ControleurBombermanGame>();
-		//ArrayList<Integer> Scores_Jeu = new ArrayList<Integer>();
+
 		
 		for (int i = 0 ; i < nb_simulations ; i++){
 			ControleurBombermanGame Control_Percep = new ControleurBombermanGame(true);

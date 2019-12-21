@@ -109,7 +109,6 @@ public class Agent {
 
 
 	public AgentAction doAction(ArrayList<Agent> agents, BombermanGame BBMG) {
-		//System.out.println(strategie.getClass().getName());
 		
 		if(strategie.getClass().getName() == "perceptron.Strategie_Perceptron")
 			return this.strategie.doActionPerceptron(this, agents, BBMG);

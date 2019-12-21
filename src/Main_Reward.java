@@ -13,7 +13,6 @@ public class Main_Reward {
 		try {
 			map = new Map("layouts/niveau1.lay");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Comportement perceptron = new Strategie_Perceptron();

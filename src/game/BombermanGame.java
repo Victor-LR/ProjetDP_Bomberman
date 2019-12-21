@@ -6,6 +6,7 @@ import agents.Agent;
 import agents.AgentAction;
 import agents.Agent_Bomberman;
 import controleur.ControleurBombermanGame;
+import factory.AgentFactory;
 import factory.BombermanFactory;
 import factory.EnnemyFactory;
 import key.Keys;
@@ -26,8 +27,8 @@ public class BombermanGame extends Game implements Observable {
     private static boolean[][] list_wall;
     private ArrayList<InfoItem> list_item;
 
-    private EnnemyFactory ennemyFactory;
-    private BombermanFactory bombermanFactory;
+    private AgentFactory ennemyFactory;
+    private AgentFactory bombermanFactory;
     
     private static Keys key_1;
     private static Keys_2 key_2;
@@ -146,7 +147,7 @@ public class BombermanGame extends Game implements Observable {
 
 	@Override
 	public void gameOver() {
-		System.out.println("Fin du jeu " + this.turn);
+		System.out.println("Fin du jeu au tour : " + this.turn);
 	}
 	
 	public ArrayList<Agent> getAgentList() {
@@ -201,7 +202,7 @@ public class BombermanGame extends Game implements Observable {
 		// TEST RANGE EAST
 		
 		for(int i = x; i<= x + bomb.getRange(); i++){
-			
+			// Vérifie si il y a un agent et le détruit
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
 				if(agent.getX() == i && agent.getY() == y && bomb.getId()!=agent.getId()){
@@ -209,16 +210,19 @@ public class BombermanGame extends Game implements Observable {
 					agents.remove(j);
 				}
 			}
-				
+			
+			// Vérifie si il y a une bombe et la détruit
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
 				if(bombe.getX() == i & bombe.getY() == y){
+					bombExplode(bombe);
 					bombe.setStateBomb(StateBomb.Boom);
 					}
 				bombe.setRange_wall_at(0, i-x);
 			}
 			
+			//Vérifie si il y a un mur et le détruit
 			if(i < list_wall.length)
 				if(list_wall[i][y]) {
 					list_wall[i][y]=false;
@@ -233,6 +237,7 @@ public class BombermanGame extends Game implements Observable {
 		
 		for(int i = y; i <= y +bomb.getRange(); i++){
 			
+			// Vérifie si il y a un agent et le détruit
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
 				if(agent.getX() == x && agent.getY() == i && bomb.getId()!=agent.getId()){
@@ -240,7 +245,8 @@ public class BombermanGame extends Game implements Observable {
 					agents.remove(j);
 				}
 			}
-				
+			
+			// Vérifie si il y a une bombe et la détruit
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
@@ -249,6 +255,7 @@ public class BombermanGame extends Game implements Observable {
 					}
 				bombe.setRange_wall_at(1, i-y);
 			}
+			//Vérifie si il y a un mur et le détruit
 			if(i < list_wall[x].length)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
@@ -263,6 +270,7 @@ public class BombermanGame extends Game implements Observable {
 		
 		for(int i = x; i >= x-bomb.getRange(); i--){
 			
+			// Vérifie si il y a un agent et le détruit
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
 				if(agent.getX() == i && agent.getY() == y && bomb.getId()!=agent.getId()){
@@ -270,7 +278,8 @@ public class BombermanGame extends Game implements Observable {
 					agents.remove(j);
 				}
 			}
-				
+			
+			// Vérifie si il y a une bombe et la détruit
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
@@ -279,6 +288,7 @@ public class BombermanGame extends Game implements Observable {
 					}
 				bombe.setRange_wall_at(2, x-i);
 			}
+			//Vérifie si il y a un mur et le détruit
 			if(i > 0)
 				if(list_wall[i][y]){
 					list_wall[i][y]=false;
@@ -294,6 +304,7 @@ public class BombermanGame extends Game implements Observable {
 		// TEST RANGE NORTH
 		for(int i = y; i >= y-bomb.getRange(); i--){
 			
+			// Vérifie si il y a un agent et le détruit
 			for(int j = 0; j< agents.size(); j++){
 				Agent agent = agents.get(j);
 				if(agent.getX() == x && agent.getY() == i && bomb.getId()!=agent.getId()){
@@ -301,7 +312,8 @@ public class BombermanGame extends Game implements Observable {
 					agents.remove(j);
 				}
 			}
-				
+			
+			// Vérifie si il y a une bombe et la détruit
 			for(int j = 0; j<bombes.size(); j++){
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
@@ -310,7 +322,7 @@ public class BombermanGame extends Game implements Observable {
 				}
 				bombe.setRange_wall_at(3, y-i);
 			}
-			
+			//Vérifie si il y a un mur et le détruit
 			if(i > 0)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
@@ -592,8 +604,7 @@ public class BombermanGame extends Game implements Observable {
 		}
 		return points;
 	}
-	
-	//Calsule 
+	 
 	public void calculPt(Agent_Bomberman agent, ArrayList<Integer> nbPoint) {
 		int sum=agent.getPoints();
 		for(int i:nbPoint)
