@@ -8,7 +8,6 @@ import game.BombermanGame;
 
 public class BombermanAgress {
 	private BombermanEtat etat;
-	private BombermanGame game;
 	private Agent_Bomberman agent;
 	private ArrayList<Agent> list_agent;
 	

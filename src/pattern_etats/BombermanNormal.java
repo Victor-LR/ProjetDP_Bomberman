@@ -20,13 +20,12 @@ public class BombermanNormal implements BombermanEtat{
 
 	@Override
 	public void isNormal() {
-		System.out.println(agent.getId() + " isNormal");
+
 	}
 
 	@Override
 	public void isInvincible() {
 		etat.setEtat(new BombermanInvincible(agent,game,list_agent,etat));
-		System.out.println("est invinc");
 	}
 
 }

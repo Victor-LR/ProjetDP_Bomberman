@@ -151,12 +151,25 @@ public class BombermanGame extends Game implements Observable {
 			{
 				invTurn((Agent_Bomberman)agent);
 				sicTurn((Agent_Bomberman)agent);
-				for(int j = 0; j < list_etat.size();j++) {
-					if(agent.getId()==list_etat.get(j).getAgent().getId())
-						list_etat.get(j).isInvincible();
+				if(agent.getStrategie().getClass().getName()!="strategie.Strategie_Joueur1" && agent.getClass().getName()!="strategie.Strategie_Joueur2") {
+					for(int j = 0; j < list_etat.size();j++) {
+						if(agent.getId()==list_etat.get(j).getAgent().getId())
+							list_etat.get(j).isInvincible();
+					}
 				}
-			}
-			
+				else
+				{
+					AgentAction action = agent.doAction(agentList,this);
+					moveAgent(agent,action);
+					itemBoost(agent.getX(), agent.getY(), (Agent_Bomberman)agent);
+					if (AgentAction.PUT_BOMB == action && !agent.isSick())
+					{
+						placeBomb((Agent_Bomberman)agent);
+					}
+					invTurn((Agent_Bomberman)agent);
+					sicTurn((Agent_Bomberman)agent);
+				}
+			}			
 		}
 		bombeTurn();
 	}

@@ -33,41 +33,29 @@ public class BombermanInvincible implements BombermanEtat{
 		if(agent.isInvincible())
 		{
 			for(int i = 0; i<list_agent.size();i++) {
-				System.out.println("ID   " + list_agent.get(i).getId() + "   " + agent.getId());
 				if(list_agent.get(i).getId()!=agent.getId()) {
 					AgentAction action = AgentAction.STOP;
 					if(list_agent.get(i).getY()==agent.getY() && agent.getX()<list_agent.get(i).getX()) {
-						System.out.println("TOTO 1");
 						action=AgentAction.MOVE_RIGHT;
 					}
 					
 					if(list_agent.get(i).getY()==agent.getY() && agent.getX()>list_agent.get(i).getX()) {
-						System.out.println("TOTO 2");
 						action = AgentAction.MOVE_LEFT;
 					}
 					
 					if(list_agent.get(i).getX()==agent.getX() && agent.getY()<list_agent.get(i).getY()) {
-						System.out.println("TOTO 3");
 						action = AgentAction.MOVE_DOWN;
 					}
 					
 					if(list_agent.get(i).getX()==agent.getX() && agent.getY()>list_agent.get(i).getY()) {
-						System.out.println("TOTO 4");
 						action = AgentAction.MOVE_UP;
 					}
-					
-//					if(list_agent.get(i).getY()==agent.getY() && agent.getX()==list_agent.get(i).getX()) {
-//						System.out.println("TOTO 5");
-//						game.placeBomb(agent);
-//					}
-					
+										
 					if(list_agent.get(i).getY()>agent.getY()) {
-						System.out.println("TOTO 6");
 						action = AgentAction.MOVE_DOWN;
 					}
 					
 					if(list_agent.get(i).getY()<agent.getY()) {
-						System.out.println("TOTO 6");
 						action = AgentAction.MOVE_UP;
 					}
 					
