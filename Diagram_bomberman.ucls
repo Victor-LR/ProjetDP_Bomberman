@@ -189,7 +189,7 @@
     <end type="TARGET" refId="9"/>  
   </dependency>  
   <dependency id="24">    
-    <bendpoint x="996" y="1960"/>    
+    <bendpoint x="1028" y="1850"/>    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="4"/>  
   </dependency>  
