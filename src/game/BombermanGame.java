@@ -126,7 +126,7 @@ public class BombermanGame extends Game implements Observable {
 			
 			Agent agent = agentList.get(i);
 			if(!agent.isInvincible()) {
-				AgentAction action = agent.doAction(agentList);
+				AgentAction action = agent.doAction(agentList,this);
 				//AgentAction action = key_1.getKaction();
 				
 				moveAgent(agent,action);
@@ -237,7 +237,6 @@ public class BombermanGame extends Game implements Observable {
 				InfoBomb bombe = bombes.get(j);
 				if(bomb != bombe)
 				if(bombe.getX() == i & bombe.getY() == y){
-					bombExplode(bombe);
 					bombe.setStateBomb(StateBomb.Boom);
 					}
 				bombe.setRange_wall_at(0, i-x);
