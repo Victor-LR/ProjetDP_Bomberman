@@ -14,6 +14,9 @@ import objects.InfoBomb;
 import objects.InfoItem;
 import objects.ItemType;
 import objects.StateBomb;
+import pattern_etats.BombermanAgress;
+import pattern_etats.BombermanEtat;
+import pattern_etats.BombermanNormal;
 
 public class BombermanGame extends Game implements Observable {
 
@@ -22,6 +25,8 @@ public class BombermanGame extends Game implements Observable {
     private ArrayList<InfoBomb> bombes;
     private static boolean[][] list_wall;
     private ArrayList<InfoItem> list_item;
+    private ArrayList<BombermanAgress> list_etat;
+
 
     private EnnemyFactory ennemyFactory;
     private BombermanFactory bombermanFactory;
@@ -74,14 +79,17 @@ public class BombermanGame extends Game implements Observable {
 		bombermanFactory=new BombermanFactory();
 		bombes = new ArrayList<InfoBomb>();
 		list_item = new ArrayList<InfoItem>();
+		list_etat = new ArrayList<BombermanAgress>();
 		
 		int ind_bbm = 0;
 		for(Agent agent : ListAgentsStart)
 		{
 			if(agent.getType()=='B') {
 				System.out.println("Bomb");
-				agentList.add(bombermanFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), 'B', agent.getColor(), agent.isInvincible(), agent.isSick(),this.getNom_strats().get(ind_bbm)));
-				System.out.println(this.getNom_strats().get(ind_bbm));
+				Agent_Bomberman bomberman = (Agent_Bomberman) bombermanFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), 'B', agent.getColor(), agent.isInvincible(), agent.isSick(),this.getNom_strats().get(ind_bbm));
+				agentList.add(bomberman);
+				list_etat.add(new BombermanAgress(bomberman, this,agentList));
+				System.out.println("Strat " + this.getNom_strats().get(ind_bbm));
 				ind_bbm++;
 			}
 			else {
@@ -115,27 +123,38 @@ public class BombermanGame extends Game implements Observable {
 		for(int i = 0; i < agentList.size(); i++) {
 			
 			Agent agent = agentList.get(i);
-		
-			AgentAction action = agent.doAction(agentList);
-			//AgentAction action = key_1.getKaction();
-			
-			moveAgent(agent,action);
-			
-			if (agent.getType()=='B') {
-				itemBoost(agent.getX(), agent.getY(), (Agent_Bomberman)agent);
-				if (AgentAction.PUT_BOMB == action && !agent.isSick())
-				{
-					placeBomb((Agent_Bomberman)agent, i);
+			if(!agent.isInvincible()) {
+				AgentAction action = agent.doAction(agentList);
+				//AgentAction action = key_1.getKaction();
+				
+				moveAgent(agent,action);
+				
+				if (agent.getType()=='B') {
+					itemBoost(agent.getX(), agent.getY(), (Agent_Bomberman)agent);
+					if (AgentAction.PUT_BOMB == action && !agent.isSick())
+					{
+						placeBomb((Agent_Bomberman)agent);
+					}
+					invTurn((Agent_Bomberman)agent);
+					sicTurn((Agent_Bomberman)agent);
+					this.PointsPartie = ((Agent_Bomberman) agent).getPoints();
+					//System.out.println("Points bomb" + i+" " +bombPoints((Agent_Bomberman) agent));
 				}
-				invTurn((Agent_Bomberman)agent);
-				sicTurn((Agent_Bomberman)agent);
-				this.PointsPartie = ((Agent_Bomberman) agent).getPoints();
-				//System.out.println("Points bomb" + i+" " +bombPoints((Agent_Bomberman) agent));
+				else
+				{
+					bombermanKill(agent);
+				}
 			}
 			else
 			{
-				bombermanKill(agent);
+				invTurn((Agent_Bomberman)agent);
+				sicTurn((Agent_Bomberman)agent);
+				for(int j = 0; j < list_etat.size();j++) {
+					if(agent.getId()==list_etat.get(j).getAgent().getId())
+						list_etat.get(j).isInvincible();
+				}
 			}
+			
 		}
 		bombeTurn();
 	}
@@ -394,7 +413,7 @@ public class BombermanGame extends Game implements Observable {
 	}
 	
 	//place une bombe à la position du bomberman
-	public void placeBomb(Agent_Bomberman bomberman, int ind)
+	public void placeBomb(Agent_Bomberman bomberman)
 	{
 		int x = bomberman.getX();
 		int y = bomberman.getY();
@@ -646,6 +665,6 @@ public class BombermanGame extends Game implements Observable {
 			agent.setInvincible(true);
 			agent.setTourInv(this.turn);
 			return true;
-			}
+		}
 	}
 }
