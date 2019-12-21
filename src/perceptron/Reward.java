@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import agents.Agent;
 import agents.AgentAction;
+import agents.Agent_Bomberman;
 import controleur.ControleurBombermanGame;
 import game.BombermanGame;
 import perceptron.SparseVector;
@@ -14,15 +15,25 @@ public class Reward {
 	
 	public void getAverageReward(int nb_simulations, int max_turn, Comportement strategie, Map map ) {
 		
+		int scoreFinal=0 ;
+		
 		ArrayList<ControleurBombermanGame> List_Control = new ArrayList<ControleurBombermanGame>();
+		//ArrayList<Integer> Scores_Jeu = new ArrayList<Integer>();
 		
 		for (int i = 0 ; i < nb_simulations ; i++){
 			ControleurBombermanGame Control_Percep = new ControleurBombermanGame(true);
 			Control_Percep.setMap(map);
 			Control_Percep.getJeu_bomberman().setListAgentsStart(Control_Percep.getMap().getStart_agents());
+			
 			ArrayList<String> nom_strats = new ArrayList();
 			nom_strats.add("Aléatoire");
 			Control_Percep.getJeu_bomberman().setNom_strats(nom_strats);
+			
+			for (Agent a : Control_Percep.getJeu_bomberman().getAgentList()) {
+				if(a.getType() == 'B')
+					a.setStrategie(strategie);
+			}
+			
 			Control_Percep.run();
 			
 			
@@ -37,58 +48,113 @@ public class Reward {
 				e.printStackTrace();
 				System.out.println("erreur !");
 			}
-			
-			System.out.println(" Fin des Thread");
+				
 		}
-		getVector(List_Control.get(0).getJeu_bomberman(),List_Control.get(0).getJeu_bomberman().getAgentList().get(0));
+		System.out.println(" Fin des Thread");
+		for(int j = 0 ; j < List_Control.size(); j++){
 
+			scoreFinal += List_Control.get(j).getJeu_bomberman().getPointsPartie();
+			
+		}
+		SparseVector etat = getEtat(List_Control.get(0).getJeu_bomberman(),List_Control.get(0).getJeu_bomberman().getAgentList().get(0));
+		System.out.println(getEtatAction(etat,AgentAction.PUT_BOMB).toString());
+		System.out.println("Moyenne des scores :"+scoreFinal/nb_simulations);
 	}
 	
 	
 	public void vizualize(int max_turn, Comportement strategie, Map map, int time_wait) {
 		
+		ControleurBombermanGame Control_Percep = new ControleurBombermanGame(false);
+		Control_Percep.setMap(map);
+		Control_Percep.getJeu_bomberman().setTime(time_wait);
+		Control_Percep.getJeu_bomberman().setListAgentsStart(Control_Percep.getMap().getStart_agents());
+		ArrayList<String> nom_strats = new ArrayList();
+		nom_strats.add("Aléatoire");
+		Control_Percep.getJeu_bomberman().setNom_strats(nom_strats);
+		
+		for (Agent a : Control_Percep.getJeu_bomberman().getAgentList()) {
+			if(a.getType() == 'B')
+				a.setStrategie(strategie);
+		}
+		
+		Control_Percep.run();
 	}
 	
-	public SparseVector getVector(BombermanGame Jeu_bbm , Agent agent)
+	public SparseVector getEtat(BombermanGame Jeu_bbm , Agent agent)
 	{
-		SparseVector vec1 = new SparseVector(75*5+1);
+		SparseVector vec1 = new SparseVector(75);
 		
-		//Première position du SparceVector à 1
-		vec1.setValue(0, 1);
+
 		
 		//position agent (bomberman) 
 		int x = agent.getX();
 		int y = agent.getY();
 		
-		int ind_actions = 0;
+		//int ind_actions = 0;
+		int point_depart_x = x-2;
+		int point_depart_y = y-2;
 		
 		
 		//Positionne les informations dans le Sparcevector		
-		for(int k = 0 ; k <5 ; k++) {
+		//for(int k = 0 ; k <5 ; k++) {
 			
 			
-			for(int i = x-2; i < x+2 ; i++) {
-				for(int j = y-2; j < y+2 ; j++) {
+			for(int i = 0; i < 5 ; i++) {
+				for(int j = 0; j < 5; j++) {
 	
 					//vec1.setValue(j+1*i+1, 1);
 					
-					if(Jeu_bbm.Isennemie(i, j))
-						vec1.setValue(ind_actions+j+1*i+1, 1);
+					if(Jeu_bbm.Isennemie(point_depart_x + j, point_depart_y + i))
+						vec1.setValue((i*5)+j, 1);
 					
-					if(Jeu_bbm.IsBombe(i, j))
-						vec1.setValue(ind_actions+25+j+1*i+1, 1);
+					if(Jeu_bbm.IsBombe(point_depart_x + j, point_depart_y + i))
+						vec1.setValue(25+(i*5)+j, 1);
 					
-					if(Jeu_bbm.IsMur(i, j))
-						vec1.setValue(ind_actions+50+j+1*i+1, 1);
+					if(Jeu_bbm.IsMur(j, i))
+						vec1.setValue(50+(i*5)+j, 1);
 					
 				}
 			}
 			
-			ind_actions+=75;
+			//ind_actions+=75;
 		
-		}
+		//}
 		
 		System.out.println(vec1.toString());
 		return(vec1);
+	}
+	
+	public SparseVector getEtatAction(SparseVector Etat , AgentAction action) {
+		
+		SparseVector vecPhi = new SparseVector(75*5+1);
+		
+		//valeur de la première position du SparceVector à 1
+		vecPhi.setValue(0, 1);
+		
+		switch(action) {
+		case MOVE_DOWN:
+			for (int i = 0 ; i < 75 ; i++)
+				vecPhi.setValue(i+1, Etat.getValue(i));
+			break;
+		case MOVE_UP:
+			for (int i = 0 ; i < 75 ; i++)
+				vecPhi.setValue(i+1+75, Etat.getValue(i));
+			break;
+		case MOVE_RIGHT:
+			for (int i = 0 ; i < 75 ; i++)
+				vecPhi.setValue(i+1+150, Etat.getValue(i));
+			break;
+		case MOVE_LEFT:
+			for (int i = 0 ; i < 75 ; i++)
+				vecPhi.setValue(i+1+225, Etat.getValue(i));
+			break;
+		case PUT_BOMB:
+			for (int i = 0 ; i < 75 ; i++)
+				vecPhi.setValue(i+1+300, Etat.getValue(i));
+			break;
+		}
+		
+		return vecPhi;
+		
 	}
 }

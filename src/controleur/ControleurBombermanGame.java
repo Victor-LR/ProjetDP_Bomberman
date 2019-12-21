@@ -10,11 +10,11 @@ public class ControleurBombermanGame implements InterfaceController {
 	private BombermanGame Jeu_bomberman;
 	private ViewBombermanGame vue_jeu;
 	ViewCommand vue_commande;
-	private boolean perceptron = false;
+	private static boolean perceptron = false;
 	private static Map map;
 	
 	public ControleurBombermanGame(boolean perc) {
-		this.perceptron = perc;
+		ControleurBombermanGame.perceptron = perc;
 		this.Jeu_bomberman = new BombermanGame();
 
 		if (perceptron) {
@@ -70,12 +70,12 @@ public class ControleurBombermanGame implements InterfaceController {
 		Jeu_bomberman.setListAgentsStart(map.getStart_agents());
 	}
 
-	public boolean isPerceptron() {
+	public static boolean isPerceptron() {
 		return perceptron;
 	}
 
 	public void setPerceptron(boolean perceptron) {
-		this.perceptron = perceptron;
+		ControleurBombermanGame.perceptron = perceptron;
 	}
 
 	public BombermanGame getJeu_bomberman() {

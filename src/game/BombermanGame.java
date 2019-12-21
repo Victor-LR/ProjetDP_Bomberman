@@ -12,6 +12,7 @@ import key.Keys;
 import key.Keys_2;
 import objects.InfoBomb;
 import objects.InfoItem;
+import objects.ItemType;
 import objects.StateBomb;
 
 public class BombermanGame extends Game implements Observable {
@@ -29,6 +30,8 @@ public class BombermanGame extends Game implements Observable {
     private static Keys_2 key_2;
     
     private ArrayList<String> nom_strats;
+    
+    private int PointsPartie = 0;
     
 
 	public BombermanGame() {
@@ -126,7 +129,8 @@ public class BombermanGame extends Game implements Observable {
 				}
 				invTurn((Agent_Bomberman)agent);
 				sicTurn((Agent_Bomberman)agent);
-				System.out.println("Points bomb" + i+" " +bombPoints((Agent_Bomberman) agent));
+				this.PointsPartie = ((Agent_Bomberman) agent).getPoints();
+				//System.out.println("Points bomb" + i+" " +bombPoints((Agent_Bomberman) agent));
 			}
 			else
 			{
@@ -144,7 +148,7 @@ public class BombermanGame extends Game implements Observable {
 	@Override
 	public void gameOver() {
 		// TODO Auto-generated method stub
-		System.out.println("Fin du jeu " + this.turn);
+		//System.out.println("Fin du jeu " + this.turn);
 	}
 	
 	public ArrayList<Agent> getAgentList() {
@@ -253,7 +257,8 @@ public class BombermanGame extends Game implements Observable {
 				if(list_wall[i][y]) {
 					list_wall[i][y]=false;
 					nbPoints.add(10);
-//					creerItem(i,y);
+					if (!ControleurBombermanGame.isPerceptron())
+						creerItem(i,y);
 					break;
 				}
 		}
@@ -282,7 +287,8 @@ public class BombermanGame extends Game implements Observable {
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
 					nbPoints.add(10);
-//					creerItem(x,i);
+					if (!ControleurBombermanGame.isPerceptron())
+						creerItem(x,i);
 					break;
 				}
 		}
@@ -311,7 +317,8 @@ public class BombermanGame extends Game implements Observable {
 				if(list_wall[i][y]){
 					list_wall[i][y]=false;
 					nbPoints.add(10);
-//					creerItem(i,y);
+					if (!ControleurBombermanGame.isPerceptron())
+						creerItem(i,y);
 					break;
 				}
 	
@@ -342,7 +349,8 @@ public class BombermanGame extends Game implements Observable {
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
 					nbPoints.add(10);
-//					creerItem(x,i);
+					if (!ControleurBombermanGame.isPerceptron())
+						creerItem(x,i);
 					break;
 				}
 		}
@@ -400,12 +408,12 @@ public class BombermanGame extends Game implements Observable {
 	//Créer un item à l'endroit du mur brisé
 
 	public void creerItem(int x, int y) {
-		/*ItemType[] listitem = ItemType.values();
+		ItemType[] listitem = ItemType.values();
 		int drop_random = (int) (Math.random()*100);
 		if(drop_random < 40) {
 			int item_random = (int) (Math.random()*listitem.length);
 			list_item.add(new InfoItem(x,y,listitem[item_random]));
-		}*/
+		}
 	}
 
 	
@@ -528,7 +536,7 @@ public class BombermanGame extends Game implements Observable {
 			agent.setInvincible(false);
 	}
 	
-	// Pour perceptron
+	// Test si il y a un ennemi à une position précise
 	public boolean Isennemie(int x, int y) {
 		
 		for (Agent agent : this.agentList) {
@@ -538,6 +546,7 @@ public class BombermanGame extends Game implements Observable {
 		return false;
 	}
 	
+	// Test si il y a une bombe à une position précise
 	public boolean IsBombe(int x, int y) {
 		
 		for (InfoBomb bomb : this.bombes) {
@@ -547,16 +556,16 @@ public class BombermanGame extends Game implements Observable {
 		return false;
 	}
 	
-	
+	// Test si il y a un mur à une position précise
 	public boolean IsMur(int x, int y) {
 		
-		for(int i = 0 ; i < this.getList_wall().length ; i++) {
-			for(int j = 0 ; j< this.getList_wall()[i].length ; j++) {
-				if(this.getList_wall()[i][j])
-					return true;
-			}
-		}
-		return false;
+//		for(int i = 0 ; i < this.getList_wall().length ; i++) {
+//			for(int j = 0 ; j< this.getList_wall()[i].length ; j++) {
+//				if(this.getList_wall()[i][j])
+//					return true;
+//			}
+//		}
+		return this.getList_wall()[x][y];
 	}
 	
 	public ArrayList<InfoBomb> getBombes() {
@@ -620,5 +629,9 @@ public class BombermanGame extends Game implements Observable {
 			sum+=i;
 		}
 		agent.setPoints(sum);
+	}
+
+	public int getPointsPartie() {
+		return PointsPartie;
 	}
 }

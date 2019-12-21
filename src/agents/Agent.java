@@ -105,6 +105,7 @@ public class Agent {
 	public void setAgentAction(AgentAction agentAction) {
 		this.agentAction = agentAction;
 	}
+	
 
 
 	public AgentAction doAction(ArrayList<Agent> agents) {
@@ -118,5 +119,15 @@ public class Agent {
 
 	public int getId() {
 		return id;
+	}
+
+
+	public Comportement getStrategie() {
+		return strategie;
+	}
+
+
+	public void setStrategie(Comportement strategie) {
+		this.strategie = strategie;
 	}
 }
