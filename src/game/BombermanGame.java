@@ -462,7 +462,8 @@ public class BombermanGame extends Game implements Observable {
 		{
 			if(agentList.get(i).getX()==agent.getX() && agentList.get(i).getY()==agent.getY() && !agentList.get(i).isInvincible() && agentList.get(i).getType()=='B')
 			{
-				agentList.remove(i);
+				if(!lifeRemaining((Agent_Bomberman) agentList.get(i)))
+					agentList.remove(i);
 			}
 		}
 	}
@@ -633,5 +634,18 @@ public class BombermanGame extends Game implements Observable {
 
 	public int getPointsPartie() {
 		return PointsPartie;
+	}
+	
+	//Enlève les vies et le rend invulnérable pendant 10 tours
+	//Renvoie un booleen pour tuer ou pas le bomberman
+	public boolean lifeRemaining(Agent_Bomberman agent) {
+		agent.setVies(agent.getVies() -1 );
+		if(agent.getVies()==0)
+			return false;
+		else {
+			agent.setInvincible(true);
+			agent.setTourInv(this.turn);
+			return true;
+			}
 	}
 }
